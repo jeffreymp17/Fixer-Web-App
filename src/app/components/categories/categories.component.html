@@ -5,10 +5,10 @@
       <div class="padding-card">
         <p class="grey-text">Category information</p><br>
        <div class="input-field col s6">
-        <input id="score" type="text" class="validate">
+        <input id="score" type="text" class="validate"[(ngModel)]="category.description" required>
         <label for="score">Description</label>
       </div>
-      <a class="waves-effect waves-light btn green"><i class="material-icons right">save</i>Save</a>
+      <a class="waves-effect waves-light btn green" (click)="saveCategory()"><i class="material-icons right">save</i>Save</a>
     <a class="waves-effect waves-light btn red darken-2"><i class="material-icons right">cancel</i>Cancel</a>
     </div>
 
@@ -27,10 +27,10 @@
       </thead>
 
       <tbody>
-        <tr  *ngFor="let category of responseModel.data">
+        <tr  *ngFor="let category of categories">
           <td>{{category.id}}</td>
            <td>{{category.description}}</td>
-            <td><a class="btn-floating waves-effect waves-light red"><i class="material-icons">delete</i></a></td>
+            <td><a class="btn-floating waves-effect waves-light red"><i class="material-icons" (click)="deleteCategory(category.id)">delete</i></a></td>
         </tr>
         
          
