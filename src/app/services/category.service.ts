@@ -37,7 +37,11 @@ export class CategoryService {
     return this.http.post(environment.apiUrl+'category',category).pipe(map((res=>res)));
   }
   deleteCategory(idCategory:number){
-    return this.http.delete(environment.apiUrl+'category/'+idCategory).pipe(map((res:any)=>{
+    return this.http.delete<Category>(environment.apiUrl+'category/'+idCategory).pipe(map((res)=>{
+    }));
+  }
+  updateCategory(category:Category){
+     return this.http.put<Category>(environment.apiUrl+'category/'+category.id,category).pipe(map((res:any)=>{
         console.log(res);
     }));
   }

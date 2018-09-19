@@ -17,4 +17,7 @@ export class HomeComponent implements OnInit {
   goToCategories(){
   	this.router.navigate(["/categories"]);
   }
+  goToBreakdowns(){
+    this.router.navigate(['/breakdowns']);
+  }
 }

@@ -8,13 +8,15 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { TechniciansComponent } from './components/technicians/technicians.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BreakdownsComponent } from './components/breakdowns/breakdowns.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NavbarComponent,
     TechniciansComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    BreakdownsComponent
   ],
   imports: [
    routes,
