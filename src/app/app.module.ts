@@ -9,7 +9,7 @@ import { TechniciansComponent } from './components/technicians/technicians.compo
 import { CategoriesComponent } from './components/categories/categories.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BreakdownsComponent } from './components/breakdowns/breakdowns.component';
-
+import { UsersComponent } from './components/users/users.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +17,8 @@ import { BreakdownsComponent } from './components/breakdowns/breakdowns.componen
     NavbarComponent,
     TechniciansComponent,
     CategoriesComponent,
-    BreakdownsComponent
+    BreakdownsComponent,
+    UsersComponent,
   ],
   imports: [
    routes,
