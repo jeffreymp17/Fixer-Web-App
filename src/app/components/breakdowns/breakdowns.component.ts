@@ -19,6 +19,7 @@ export class BreakdownsComponent implements OnInit {
 	private category:Category;
 	private update:boolean;
 	private breakdowns:Breakdown[];
+	private materialIcon:string='add';
 	private breakdown:Breakdown=new Breakdown(null,null,null);
 	constructor(private categoryService:CategoryService,private breakdownService:BreakdownService,private zone:NgZone) {
 	}
@@ -55,6 +56,11 @@ export class BreakdownsComponent implements OnInit {
 	}
 	onTap(){
 		this.createFormState=!this.createFormState;
+		if(!this.createFormState){
+			this.materialIcon='close';
+		}else{
+			this.materialIcon='add';
+		}
 		console.log(this.createFormState);
 	}
 	public saveCategory(){

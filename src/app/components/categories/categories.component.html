@@ -27,7 +27,6 @@
         <table class="highligth">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Description</th>
               <th>Delete</th>
               <th>Edit</th>
@@ -36,7 +35,6 @@
 
           <tbody>
             <tr  *ngFor="let category of categories">
-              <td>{{category.id}}</td>
               <td>{{category.description}}</td>
               <td><a class="btn-floating waves-effect waves-light red"><i class="material-icons" (click)="deleteCategory(category.id)">delete</i></a></td>
               <td><a class="btn-floating waves-effect waves-light blue"><i class="material-icons" (click)="getCategory(category.id)">edit</i></a></td>
@@ -60,7 +58,7 @@
   </div>
   <div class="fixed-action-btn" #f>
     <a class="btn-floating btn-large red" (click)="onTap()">
-      <i class="large material-icons">mode_edit</i>
+      <i class="large material-icons">{{materialIcon}}</i>
     </a>
     <ul>
       <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
