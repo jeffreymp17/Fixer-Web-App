@@ -20,19 +20,19 @@ export class CategoryService {
 
   }
   getCategory(idCategory:any):Observable<any>{
-      return this.http.get<any>(environment.apiUrl+"category/"+idCategory).pipe(map((res)=>{
-           return new Category(res.data.id
-           	,res.data.description
-           	,new Date(res.data.created_at.date,res.data.created_at.timezone_type,res.data.created_at.timezone));
+    return this.http.get<any>(environment.apiUrl+"category/"+idCategory).pipe(map((res)=>{
+      return new Category(res.data.id
+        ,res.data.description
+        ,new Date(res.data.created_at.date,res.data.created_at.timezone_type,res.data.created_at.timezone));
       
-       }));
+    }));
   }
   getAllCategories():Observable<ResponseModel>{
-      return this.http.get<ResponseModel>(environment.apiUrl+"category").pipe(map((res:ResponseModel)=>res));
+    return this.http.get<ResponseModel>(environment.apiUrl+"category").pipe(map((res:ResponseModel)=>res));
   }
   saveCategory(category:Category):Observable<any>{
-     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-     let body=JSON.stringify(category);
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let body=JSON.stringify(category);
     console.log("in service:",body);
     return this.http.post(environment.apiUrl+'category',category).pipe(map((res=>res)));
   }
@@ -41,8 +41,8 @@ export class CategoryService {
     }));
   }
   updateCategory(category:Category){
-     return this.http.put<Category>(environment.apiUrl+'category/'+category.id,category).pipe(map((res:any)=>{
-        console.log(res);
+    return this.http.put<Category>(environment.apiUrl+'category/'+category.id,category).pipe(map((res:any)=>{
+      console.log(res);
     }));
   }
 }

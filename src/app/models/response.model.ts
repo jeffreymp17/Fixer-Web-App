@@ -4,7 +4,7 @@ export class ResponseModel{
 	data:any[];
 	links:Links;
 	meta:Meta;
-	constructor(data:any[],links:Links,meta:Meta){
+	constructor(){
 
 	}
 }
