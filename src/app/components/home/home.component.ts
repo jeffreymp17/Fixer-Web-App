@@ -20,4 +20,7 @@ export class HomeComponent implements OnInit {
   goToBreakdowns(){
     this.router.navigate(['/breakdowns']);
   }
+  goToUsers(){
+    this.router.navigate(["/users"]);
+  }
 }
