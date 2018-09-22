@@ -16,6 +16,7 @@ export class CategoriesComponent implements OnInit,OnDestroy {
   private categories:Category[];
   private category:Category;
   private update:boolean;
+  private materialIcon:string='add';
   constructor(private service:CategoryService,private zone:NgZone) {
     this.category=new Category(null,null,null);}
 
@@ -24,6 +25,11 @@ export class CategoriesComponent implements OnInit,OnDestroy {
     }
     onTap(){
       this.createFormState=!this.createFormState;
+      if(!this.createFormState){
+        this.materialIcon='close';
+      }else{
+        this.materialIcon='add';
+      }
       console.log(this.createFormState);
     }
     ngOnDestroy(){

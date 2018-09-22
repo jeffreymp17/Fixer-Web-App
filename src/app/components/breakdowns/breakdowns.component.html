@@ -36,7 +36,6 @@
       <table class="highligth">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Description</th>
             <th>Price</th>
             <th>Category</th>
@@ -47,7 +46,6 @@
 
         <tbody>
           <tr *ngFor="let breakdown of breakdowns" >
-            <td>{{breakdown.id}}</td>
             <td>{{breakdown.description}}</td>
             <td>{{breakdown.price}}</td>
             <td>{{breakdown.category.description}}</td>
@@ -73,7 +71,7 @@
 </div>
 <div class="fixed-action-btn" #f>
   <a class="btn-floating btn-large red" (click)="onTap()">
-    <i class="large material-icons">mode_edit</i>
+    <i class="large material-icons">{{materialIcon}}</i>
   </a>
   <ul>
     <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
