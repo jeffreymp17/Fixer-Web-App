@@ -49,6 +49,7 @@ export class CategoriesComponent implements OnInit,OnDestroy {
     public deleteCategory(idCategory:number){
       this.service.deleteCategory(idCategory).subscribe((res=>{
         console.log(res);
+        this.toastMessage("successfully deleted","rounded",3000);
         this.getAllCategories();
       }));
     }

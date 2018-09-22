@@ -2,7 +2,7 @@
   <h4 class=" grey-text left">Breakdowns</h4>
   <div class="col s12 m12 l12" >
     <div class="col s12 m12 l12 card radius-card hoverable "[hidden]="createFormState">
-  < <form  #form="ngForm" (submit)="actions($event)">
+   <form  #form="ngForm" (submit)="actions($event)">
         <div class="padding-card">
           <p class="grey-text">Breakdowns information</p><br>
       <div class="input-field col s6">
@@ -24,7 +24,6 @@
           </div>
           <div class="input-field col s6">
            <Button type="submit" class="waves-effect waves-light btn green"  ><i class="material-icons right" >save</i>Save</Button>
-           <Button (click)="saveBreakdown()" type="button"class="waves-effect waves-light btn red darken-2"><i class="material-icons right">cancel</i>Cancel</Button>
          </div>
        </div>
 

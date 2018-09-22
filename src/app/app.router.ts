@@ -12,7 +12,7 @@ const appRoutes:Routes=[
 {path:'home',component:HomeComponent},
 {path:"technicians",component:TechniciansComponent},
 {path:"categories",component:CategoriesComponent},
-{path:"breakdowns",component:BreakdownsComponent}
+{path:"breakdowns",component:BreakdownsComponent},
 {path:"users",component:UsersComponent}
 ];
 export const routes:ModuleWithProviders=RouterModule.forRoot(appRoutes);
