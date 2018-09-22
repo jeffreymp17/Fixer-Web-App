@@ -7,15 +7,15 @@
         <div class="padding-card">
           <p class="grey-text">Category information</p><br>
           <div class="input-field col s6">
-                      <i class="material-icons prefix">description</i>
+            <i class="material-icons prefix">description</i>
             <input id="score" type="text" class="validate"[(ngModel)]="category.description" #description="ngModel" required name="category" max="" />
             <label for="score" class="active">Description</label>
             <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
-        <div [hidden]="!description.errors.required" class="red-text">
-          !Description is required!
-        </div>
-          </div>
+              <div [hidden]="!description.errors.required" class="red-text">
+                !Description is required!
+              </div>
             </div>
+          </div>
           <Button type="submit" class="waves-effect waves-light btn green" [disabled]="!category.description" ><i class="material-icons right">save</i>Save</Button>
           <Button type="button"class="waves-effect waves-light btn red darken-2"><i class="material-icons right">cancel</i>Cancel</Button>
         </div>
@@ -24,7 +24,7 @@
     </div>
     <div class="col s12 m12 l12 card radius-card hoverable">
       <div class="row padding-card">
-        <p class="grey-text">List of technicians</p>
+        <p class="grey-text">List of categories</p>
         <table class="highligth">
           <thead>
             <tr>

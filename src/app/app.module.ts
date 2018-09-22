@@ -9,6 +9,7 @@ import { TechniciansComponent } from './components/technicians/technicians.compo
 import { CategoriesComponent } from './components/categories/categories.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BreakdownsComponent } from './components/breakdowns/breakdowns.component';
+
 @NgModule({
   declarations: [
     AppComponent,
