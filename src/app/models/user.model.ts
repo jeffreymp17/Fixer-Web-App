@@ -9,10 +9,10 @@ export class User{
 	public type:string;
 	public created_at:Date;
 
-	constructor(id:number, name:string,
-		lastname:string, picture:string,
-		phone:string, 
-		type:string,created_at:Date){
+	constructor(id:number=-1, name:string="",
+		lastname:string="", picture:string="",
+		phone:string="", 
+		type:string="",created_at:Date =null){
 		this.id=id;
 		this.name=name;
 		this.lastname=lastname;
@@ -20,7 +20,6 @@ export class User{
 		this.phone=phone;
 		this.type = type;
 		this.created_at=created_at;
-     
 	}
 
 }

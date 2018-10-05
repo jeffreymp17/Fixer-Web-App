@@ -17,7 +17,7 @@
         </div>
           <div class="input-field col s6">
             <select [(ngModel)]="breakdown.category_id" name="category_id">
-              <option class="option" disbaled>Choose a option</option>
+              <option class="option" disabled>Choose a option</option>
               <option *ngFor="let category of categories" [value]="category.id">{{category.description}}</option>
             </select>
             <label>Categories</label>
