@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ResponseModel } from '../../models/response.model';
 import { User } from '../../models/user.model';
+import {Router} from "@angular/router";
 import { Observable } from 'rxjs';
 
 declare var M:any;
@@ -23,7 +24,7 @@ export class UsersComponent implements OnInit {
   private pagination=[];
   public user:User = new User();
 
-  constructor(private service:UserService) { }
+  constructor(private service:UserService,private router:Router) { }
 
   ngOnInit() {
   	this.getAllUsers();
@@ -131,5 +132,10 @@ export class UsersComponent implements OnInit {
     this.user = auxUser;
     this.isUpdate = !this.isUpdate;
     this.onTap()
+  }
+
+  goToDetail(id:number){
+    //alert(id);
+    this.router.navigate(["/users",id]);
   }
 }
