@@ -1,0 +1,83 @@
+<div class="row">
+  <h4 class=" grey-text left">Breakdowns</h4>
+  <div class="col s12 m12 l12" >
+    <div class="col s12 m12 l12 card radius-card hoverable "[hidden]="createFormState">
+   <form  #form="ngForm" (submit)="actions($event)">
+        <div class="padding-card">
+          <p class="grey-text">Breakdowns information</p><br>
+      <div class="input-field col s6">
+                              <i class="material-icons prefix">description</i>
+          <input id="description" type="text" class="validate" [(ngModel)]="breakdown.description" name="description">
+          <label for="description">Description</label>
+        </div>
+          <div class="input-field col s6">
+                      <i class="material-icons prefix">price</i>
+          <input id="price" type="text" class="validate" [(ngModel)]="breakdown.price" name="price">
+          <label for="price">Price</label>
+        </div>
+          <div class="input-field col s6">
+            <select [(ngModel)]="breakdown.category_id" name="category_id">
+              <option class="option" disabled>Choose a option</option>
+              <option *ngFor="let category of categories" [value]="category.id">{{category.description}}</option>
+            </select>
+            <label>Categories</label>
+          </div>
+          <div class="input-field col s6">
+           <Button type="submit" class="waves-effect waves-light btn green"  ><i class="material-icons right" >save</i>Save</Button>
+         </div>
+       </div>
+
+   </form>
+
+   </div>
+   <div class="col s12 m12 l12 card radius-card hoverable">
+    <div class="row padding-card">
+      <p class="grey-text">List of breakcdowns</p>
+      <table class="highligth">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Delete</th>
+            <th>Edit</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let breakdown of breakdowns" >
+            <td>{{breakdown.description}}</td>
+            <td>{{breakdown.price}}</td>
+            <td>{{breakdown.category.description}}</td>
+            <td><a class="btn-floating waves-effect waves-light red" (click)="deleteBreakdown(breakdown.id)"><i class="material-icons" >delete</i></a></td>
+            <td><a class="btn-floating waves-effect waves-light blue"><i class="material-icons" >edit</i></a></td>
+          </tr>
+
+
+        </tbody>
+        <ul class="pagination">
+          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+          <li class="active blue" ><a >1</a></li>
+          <li class="waves-effect"><a>2</a></li>
+          <li class="waves-effect"><a>3</a></li>
+          <li class="waves-effect"><a>4</a></li>
+          <li class="waves-effect"><a >5</a></li>
+          <li class="waves-effect"><a ><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+      </table>
+    </div>
+  </div>
+
+</div>
+<div class="fixed-action-btn" #f>
+  <a class="btn-floating btn-large red" (click)="onTap()">
+    <i class="large material-icons">{{materialIcon}}</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+    <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+    <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+    <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+  </ul>
+</div>
+</div>

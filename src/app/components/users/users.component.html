@@ -1,0 +1,108 @@
+<div class="row">
+	<div  class="col {{tableColumn}} card radius-card hoverable">
+		<h4 class=" grey-text left">Users</h4>
+		<table class="responsive-table highlight">
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Delete</th>
+					<th>Edit</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr  *ngFor="let user of users">
+					<td (click)="goToDetail(user.id)">
+						<span *ngIf="(user.type == 'Admin')" class="new badge  green accent-4" data-badge-caption="">{{user.type}}</span>
+						<span *ngIf="(user.type=='Customer')" class="new badge deep-purple accent-2" data-badge-caption="">{{user.type}}</span>
+
+						<span *ngIf="(user.type=='Technician')" class="new badge pink accent-2" data-badge-caption="">{{user.type}}</span>
+					</td>
+					<td>
+						{{user.name}} {{user.lastname}}
+
+					</td>
+					<td>{{user.email}}</td>
+					<td *ngIf="user.phone!=null; else elseBlock">{{user.phone}}</td>
+					<td><a class="btn-floating waves-effect waves-light red"><i class="material-icons" (click)="delete(user.id)">delete</i></a></td>
+					<td><a class="btn-floating waves-effect waves-light blue"><i class="material-icons" (click)="getUser(user.id)">edit</i></a></td>
+				</tr>
+			</tbody>
+		</table>
+		 <ul class="pagination">
+            <li [class.disabled]="responseModel.meta.current_page === 1"
+            (click)="getAllUsers(responseModel.meta.current_page-1)">
+            	<a><i class="material-icons">chevron_left</i></a>
+            </li>
+            <li *ngFor="let page of pagination"
+  				(click)="getAllUsers(page)"
+  				[class.active]="responseModel.meta.current_page === page" >
+  				<a >{{page}}</a>
+  			</li>
+            <li [class.disabled]="responseModel.meta.current_page === responseModel.meta.last_page"
+            (click)="getAllUsers(responseModel.meta.current_page+1)">
+            	<a ><i class="material-icons">chevron_right</i></a>
+            </li>
+          </ul>
+	</div>
+	<div class="col s4 card radius-card hoverable" [hidden]="isHiddenForm">
+		<p class="grey-text">User information</p>
+
+		<form #form="ngForm" (submit)="actions($event)">
+			<div class="input-field col s12">
+      			<i class="material-icons prefix">person</i>
+          		<input id="name" type="text" class="validate" [(ngModel)]="user.name" name="name" required>
+          		<label for="name">Name</label>
+	        </div>
+	        
+	        <div class="input-field col s12">
+      			<i class="material-icons prefix">description</i>
+          		<input id="lastname" type="text" class="validate" [(ngModel)]="user.lastname" name="lastname">
+          		<label for="lastname">Lastname</label>
+	        </div>	
+
+	        <div class="input-field col s12">
+	        	<i class="material-icons prefix">email</i>
+          		<input id="email" type="email" 
+          		[(ngModel)]="user.email" name="email" class="validate">
+          		<label for="email">Email</label>
+        	</div>
+
+        	<div class="input-field col s12">
+          		<i class="material-icons prefix">phone</i>
+          		<input id="phone" type="tel" name="phone" class="validate" [(ngModel)]="user.phone">
+          		<label for="phone">Telephone</label>
+        	</div>
+
+	        <div class="input-field col s12">
+            	<select materialize="material_select" [(ngModel)]="user.type" name="type">
+             	 	<option value="1">Admin</option>
+              		<option value="App\Technician">Technician</option>
+              		<option value="App\Customer">Customer</option>
+            	</select>
+            	<label>User types</label>
+          	</div>
+          	<div class="input-field col s6">
+           		<Button type="submit" class="waves-effect waves-light btn green"  ><i class="material-icons right" >save</i>Save</Button>
+         	</div>
+		</form>
+	</div>
+</div>
+
+<div class="fixed-action-btn">
+	<a class="btn-floating btn-large {{fabColor}}" (click)="onTap()">
+		<i class="large material-icons">{{fabIcon}}</i>
+	</a>
+</div>
+
+<ng-template #elseBlock>
+	<td>Unregistered phone</td>
+</ng-template>
+<ng-template #emptyBlock>
+	<div class="col {{tableColumn}}">
+			<h3 class="grey-text center">there aren't any users</h3>
+	</div>
+</ng-template>

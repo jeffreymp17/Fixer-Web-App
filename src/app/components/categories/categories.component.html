@@ -1,0 +1,70 @@
+<div class="row">
+  <h4 class=" grey-text left">Category</h4>
+  <div class="col s12 m12 l12" >
+    <div class="col s12 m12 l12 card radius-card hoverable " [hidden]="createFormState">
+      <form (submit)="actions($event)" #form="ngForm">
+
+        <div class="padding-card">
+          <p class="grey-text">Category information</p><br>
+          <div class="input-field col s6">
+            <i class="material-icons prefix">description</i>
+            <input id="score" type="text" class="validate"[(ngModel)]="category.description" #description="ngModel" required name="category" max="" />
+            <label for="score" class="active">Description</label>
+            <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
+              <div [hidden]="!description.errors.required" class="red-text">
+                !Description is required!
+              </div>
+            </div>
+          </div>
+          <Button type="submit" class="waves-effect waves-light btn green" [disabled]="!category.description" ><i class="material-icons right">save</i>Save</Button>
+        </div>
+      </form>
+
+    </div>
+    <div class="col s12 m12 l12 card radius-card hoverable">
+      <div class="row padding-card">
+        <p class="grey-text">List of categories</p>
+        <table class="highligth">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Delete</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr  *ngFor="let category of categories">
+              <td>{{category.description}}</td>
+              <td><a class="btn-floating waves-effect waves-light red"><i class="material-icons" (click)="deleteCategory(category.id)">delete</i></a></td>
+              <td><a class="btn-floating waves-effect waves-light blue"><i class="material-icons" (click)="getCategory(category.id)">edit</i></a></td>
+            </tr>
+            
+            
+          </tbody>
+          <ul class="pagination">
+            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+            <li class="active blue" ><a >1</a></li>
+            <li class="waves-effect"><a>2</a></li>
+            <li class="waves-effect"><a>3</a></li>
+            <li class="waves-effect"><a>4</a></li>
+            <li class="waves-effect"><a >5</a></li>
+            <li class="waves-effect"><a ><i class="material-icons">chevron_right</i></a></li>
+          </ul>
+        </table>
+      </div>
+    </div>
+
+  </div>
+  <div class="fixed-action-btn" #f>
+    <a class="btn-floating btn-large red" (click)="onTap()">
+      <i class="large material-icons">{{materialIcon}}</i>
+    </a>
+    <ul>
+      <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+      <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<header id="header" class="page-topbar">
+	<!-- start header nav-->
+	<div class="navbar-fixed">
+		<nav class="navbar-color gradient-45deg-green-teal">
+			<div class="nav-wrapper">
+				<ul class="left">
+					<li>
+						<h1 class="logo-wrapper">
+							<a [routerLink]="['/']" class="brand-logo darken-1">
+								<img src="assets/img/logo.png" alt="">
+								<span class="logo-text hide-on-med-and-down">Fixer</span>
+							</a>
+						</h1>
+					</li>
+				</ul>
+				<div class="header-search-wrapper hide-on-med-and-down">
+					<i class="material-icons">search</i>
+					<input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Fixer" />
+				</div>
+				<ul class="right hide-on-med-and-down">
+					<li>
+						<a href="javascript:void(0);" class="waves-effect waves-block waves-light toggle-fullscreen">
+							<i class="material-icons">settings_overscan</i>
+						</a>
+					</li>
+					<li [routerLink]="['/']" routerLinkActive="active-link">
+						<a class="waves-effect waves-block waves-light">
+							<i class="material-icons">home</i>
+						</a>
+					</li>
+					<li>
+						<a class="btn blue radius-button waves-effect waves-light">Salir<i class=" material-icons right">exit_to_app</i>
+						</a>
+					</li>
+					
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<!-- end header nav-->
+</header>
