@@ -17,7 +17,7 @@ export class UsersComponent implements OnInit {
 
   private isUpdate = false;
   private formTitle = "New";
-  private responseModel:ResponseModel=new ResponseModel([],new Links(),new Meta());
+  private responseModel:ResponseModel=new ResponseModel();
   private users:User[];
   private pagination=[];
   public user:User = new User();
