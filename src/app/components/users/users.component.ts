@@ -4,7 +4,7 @@ import { ResponseModel } from '../../models/response.model';
 import { User } from '../../models/user.model';
 import { Links } from '../../models/links.model';
 import { Meta } from '../../models/meta.model';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 
 declare var M:any;
 

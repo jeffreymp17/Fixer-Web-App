@@ -12,6 +12,9 @@ import { UsersComponent } from './components/users/users.component';
 import { UsersDetailComponent } from './components/users-detail/users-detail.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { LoginComponent } from './components/login/login.component';
+import { AuthGuard, LoginGuard } from './auth/auth.guard';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +26,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     UsersDetailComponent,
     SidenavComponent,
     DashboardComponent,
+    LoginComponent,
   ],
   imports: [
    routes,
@@ -30,7 +34,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    LoginGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

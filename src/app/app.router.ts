@@ -7,14 +7,20 @@ import { BreakdownsComponent } from './components/breakdowns/breakdowns.componen
 import { UsersComponent } from './components/users/users.component';
 import { UsersDetailComponent } from './components/users-detail/users-detail.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { LoginComponent } from './components/login/login.component';
+import { AuthGuard, LoginGuard } from './auth/auth.guard';
 
 const appRoutes:Routes=[
-	{ path:'',redirectTo:'/home',pathMatch:'full' },
-	{ path:'home',component:HomeComponent },
-	{ path:"categories",component:CategoriesComponent },
-	{ path:"breakdowns",component:BreakdownsComponent },
-	{ path:"users",component:UsersComponent },
-	{ path:"users/:id",component:UsersDetailComponent },
-	{ path:"dashboard", component:DashboardComponent }
+
+	{ path:'',component:HomeComponent, canActivate:[AuthGuard]},
+	{ path:"categories",component:CategoriesComponent,canActivate:[AuthGuard] },
+	{ path:"breakdowns",component:BreakdownsComponent,canActivate:[AuthGuard] },
+	{ path:"users",component:UsersComponent,canActivate:[AuthGuard] },
+	{ path:"users/:id",component:UsersDetailComponent,canActivate:[AuthGuard] },
+	{ path:"dashboard", component:DashboardComponent,canActivate:[AuthGuard] },
+	{ path:"login", component:LoginComponent, canActivate:[LoginGuard]},
+
+	    // otherwise redirect to home
+    { path: '**', redirectTo: '' }
 ];
 export const routes:ModuleWithProviders=RouterModule.forRoot(appRoutes);

@@ -1,10 +1,17 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
+<div *ngIf="isLoggedIn | async as isLoggedIn; else LoginBlock ">
+	<app-navbar></app-navbar>
+	<app-sidenav></app-sidenav>	
+	<main>
+		<router-outlet></router-outlet>
+	</main>
+</div>
 
-<app-navbar></app-navbar>
-<app-sidenav></app-sidenav>	
-<main>
-	<router-outlet></router-outlet>
-</main>
+<ng-template #LoginBlock>
+	<app-login></app-login>
+</ng-template>
+
+
 
           
