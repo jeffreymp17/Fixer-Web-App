@@ -251,13 +251,13 @@
   box-shadow: 0 6px 20px 0 rgba(124, 77, 255, 0.5);
 }
 
-.gradient-45deg-cyan-light-green {
+.gradient-90deg-cyan-light-green {
   background: #00e5ff;
-  background: -webkit-linear-gradient(45deg, #00e5ff 0%, #ccff90 100%);
-  background: linear-gradient(45deg, #00e5ff 0%, #ccff90 100%);
+  background: -webkit-linear-gradient(90deg, #00e5ff 0%, #ccff90 100%);
+  background: linear-gradient(90deg, #00e5ff 0%, #ccff90 100%);
 }
 
-.gradient-45deg-cyan-light-green.gradient-shadow {
+.gradient-90deg-cyan-light-green.gradient-shadow {
   box-shadow: 0 6px 20px 0 rgba(204, 255, 144, 0.5);
 }
 

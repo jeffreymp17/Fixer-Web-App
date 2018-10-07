@@ -10,6 +10,7 @@ export class User{
 	public userable: any;
 	public register_date:string;
 	public birthdate: string;
+	public token:string;
 	public created_at:Date;
 
 	constructor(id:number=-1, name:string="",
@@ -19,6 +20,7 @@ export class User{
 		userable:any = null,
 		register_date:string = "",
 		birthdate:string="",
+		token:string="",
 		created_at:Date =null){
 		this.id=id;
 		this.name=name;
