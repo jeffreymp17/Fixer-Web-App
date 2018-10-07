@@ -1,0 +1,24 @@
+.sidenav-header{
+	height:64px; 
+    line-height: 64px;
+	background-color: #d500f9;
+	font-size: 2.1rem;
+}
+.sidenav-title{
+	font-size: 26px;
+	padding-left: 8px;
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 0.2s linear;
+	padding-left: 10px;
+}
+#title{ 
+	height: 64px;
+	display:inline-block;
+	padding-left: 15px;
+	padding-right:15px;
+}
+#title:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
