@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ResponseModel } from '../../models/response.model';
 import { User } from '../../models/user.model';
+import { Links } from '../../models/links.model';
+import { Meta } from '../../models/meta.model';
 import {Router} from "@angular/router";
-import { Observable } from 'rxjs';
 
 declare var M:any;
 
@@ -14,12 +15,9 @@ declare var M:any;
 })
 export class UsersComponent implements OnInit {
 
-  private tableColumn = 's12';
-  private fabIcon  =  'person_add';
-  private fabColor  = 'green';
   private isUpdate = false;
-  private isHiddenForm:boolean = true;
-  private responseModel:ResponseModel;
+  private formTitle = "New";
+  private responseModel:ResponseModel=new ResponseModel([],new Links(),new Meta());
   private users:User[];
   private pagination=[];
   public user:User = new User();
@@ -29,11 +27,13 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
   	this.getAllUsers();
     var elems = document.querySelectorAll('select');
+    var modals = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(modals, []);
     var instances = M.FormSelect.init(elems, []);
-
   }
-  getAllUsers(url=null){
-    url = url==null ? "users" : "users?page="+url;
+
+  getAllUsers(page=null){
+    let url = this.getUrl(page);
     this.service.getAllUsers(url).subscribe( 
       data =>{
         this.responseModel=data;
@@ -44,28 +44,14 @@ export class UsersComponent implements OnInit {
 
     );
   }
-  onTap(){
-    this.isHiddenForm=!this.isHiddenForm;
-    if(!this.isHiddenForm){
-      this.fabIcon     ='close';
-      this.fabColor    ='red';
-      this.tableColumn = 's8';
-      !this.isUpdate ? this.user = new User() : "";
-    }else{
-      this.fabIcon     ='person_add';
-      this.fabColor    ='green';
-      this.tableColumn = 's12';
-      this.isUpdate = false;
-    }
-  }
 
   public update(user:User){
-      this.isHiddenForm=!this.isHiddenForm;
       this.service.updateUser(user).subscribe(
         user =>{
-          this.toastMessage("successfully updated","rounded red",3000);
+          this.toastMessage("successfully updated","rounded green",3000);
           this.getAllUsers();
           this.clearForm();
+          this.closeModal();
         },
         error => this.toastMessage(error,"rounded red",3000)
 
@@ -86,7 +72,8 @@ export class UsersComponent implements OnInit {
       res=>{
         this.users.unshift(res.data);
         this.toastMessage("successfully created","rounded green",3000);
-        this.clearForm()
+        this.clearForm();
+        this.closeModal();
       },
       error => {
         this.toastMessage(error,"rounded red",3000);
@@ -112,8 +99,9 @@ export class UsersComponent implements OnInit {
   }
 
   public clearForm(){
-    this.onTap();
     this.user = new User();
+    this.isUpdate=false;
+    this.formTitle = "New";
   }
 
   public getPaginate(){
@@ -131,11 +119,28 @@ export class UsersComponent implements OnInit {
     });
     this.user = auxUser;
     this.isUpdate = !this.isUpdate;
-    this.onTap()
+    this.formTitle = "Update";
   }
 
   goToDetail(id:number){
     //alert(id);
     this.router.navigate(["/users",id]);
+  }
+
+  private closeModal() {
+    var elem= document.querySelector('.modal');
+    var instance = M.Modal.init(elem);
+    instance.close(); 
+  }
+
+  private getUrl(page){
+    if(page ==  null){
+      return "users";
+    }
+    else{
+      let last_page = this.responseModel.meta.last_page
+      page = page < last_page ? page : last_page; 
+      return "users?page="+page;
+    }
   }
 }

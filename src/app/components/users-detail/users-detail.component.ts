@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { User } from  '../../models/user.model';
+
+declare var M:any;
+
 @Component({
   selector: 'app-users-detail',
   templateUrl: './users-detail.component.html',
@@ -8,12 +13,30 @@ import { ActivatedRoute } from '@angular/router';
 export class UsersDetailComponent implements OnInit {
  
   private  userId;
-  private route: ActivatedRoute;
+  public user:User = new User();
 
-  constructor() { }
+
+  constructor(private service:UserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-  	this.userId = this.route.snapshot.paramMap.get('id');
+  	this.userId = this.route.snapshot.params.id;
+  	this.getUser(this.userId);
+  }
+
+  getUser(id:number){
+    this.service.getUser(id).subscribe( 
+      data =>{
+        this.user=data;
+        console.log("USER",this.user);
+
+      },
+      error => this.toastMessage(error,"rounded red",3000)
+
+    );
+  }
+
+  toastMessage(html:string,type:string,duration:number){
+      M.toast({html: html, classes: type,timeRemaining:duration});
   }
 
 }
