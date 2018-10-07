@@ -22,12 +22,13 @@ export class UserService {
   			.pipe(catchError(this.errorHandler));
   }
 
-  getUser(id):Observable<User>{
-    return this.http.get<User>(environment.apiUrl+'users/'+id)
+  getUser(id):Observable<ResponseModel>{
+    return this.http.get<ResponseModel>(environment.apiUrl+'users/'+id)
         .pipe(catchError(this.errorHandler));
   }
 
   saveUser(user:User):Observable<any>{
+    console.log("USER",user);
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let body=JSON.stringify(user);
     return this.http.post(environment.apiUrl+'users',user)

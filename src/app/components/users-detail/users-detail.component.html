@@ -13,20 +13,20 @@
   			<div class="card-content">
   				<div class="row pt-2">
   					<div class="col s12 m3 offset-m2">
-  						<h4 class="card-title grey-text text-darken-4">Roger Waters</h4>
-  						<p class="medium-small grey-text">Project Manager</p>
+  						<h4 class="card-title grey-text text-darken-4" >{{user.name}} {{user.lastname}}</h4>
+  						<p class="medium-small grey-text">{{user.type}}</p>
   					</div>
-  					<div class="col s12 m2 center-align">
-  						<h4 class="card-title grey-text text-darken-4">10+</h4>
-  						<p class="medium-small grey-text">Work Experience</p>
+  					<div class="col s12 m2 center-align" *ngIf="(user.userable!=null)">
+  						<h4 class="card-title grey-text text-darken-4">{{user.userable.score}}</h4>
+  						<p class="medium-small grey-text">Score</p>
   					</div>
   					<div class="col s12 m2 center-align">
   						<h4 class="card-title grey-text text-darken-4">6</h4>
-  						<p class="medium-small grey-text">Completed Projects</p>
+  						<p class="medium-small grey-text">Orders</p>
   					</div>
   					<div class="col s12 m2 center-align">
-  						<h4 class="card-title grey-text text-darken-4">$ 1,253,000</h4>
-  						<p class="medium-small grey-text">Busness Profit</p>
+  						<h4 class="card-title grey-text text-darken-4">{{user.created_at?.date}}</h4>
+  						<p class="medium-small grey-text">Register {{user.register_date}}</p>
   					</div>
   					<div class="col s12 m1 right-align">
   						<a class="btn-floating activator waves-effect waves-light rec accent-2 right">
@@ -38,35 +38,34 @@
 
   			<div class="card-reveal">
   				<p>
-  					<span class="card-title grey-text text-darken-4">Roger Waters
+  					<span class="card-title grey-text text-darken-4">{{user.name}} {{user.lastname}}
   						<i class="material-icons right">close</i>
   					</span>
   					<span>
-  						<i class="material-icons cyan-text text-darken-2">perm_identity</i> Project Manager
+  						<i class="material-icons cyan-text text-darken-2">perm_identity</i> {{user.type}}
   					</span>
 				</p>
   				<p>
-  					I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.
-  				</p>
-  				<p>
-  					<i class="material-icons cyan-text text-darken-2">perm_phone_msg</i> +1 (612) 222 8989
+  					<i class="material-icons cyan-text text-darken-2">perm_phone_msg</i> 
+  					<span *ngIf="user.phone!=null; else elsePhone">{{user.phone}}</span>
   				</p>
 				<p>
-					<i class="material-icons cyan-text text-darken-2">email</i> mail@domain.com
+					<i class="material-icons cyan-text text-darken-2">email</i> {{user.email}}
 				</p>
 				<p>
-					<i class="material-icons cyan-text text-darken-2">cake</i> 18th June 1990
-				</p>
-				<p>
-					<i class="material-icons cyan-text text-darken-2">airplanemode_active</i> BAR - AUS
+					<i class="material-icons cyan-text text-darken-2">cake</i> {{user.birthdate}}
 				</p>
 			</div>
 		</div>
 	</div>
 </div>  	
 <div class="fixed-action-btn">
-	<a class="btn-floating btn-large gradient-45deg-amber-amber">
+	<a [routerLink]="['/users']" class="btn-floating btn-large gradient-45deg-amber-amber">
 		<i class="large material-icons">arrow_back
 </i>
 	</a>
 </div>
+
+<ng-template #elsePhone>
+	<span>Unregistered phone</span>
+</ng-template>

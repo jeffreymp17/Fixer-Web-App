@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { ResponseModel } from '../../models/response.model';
 import { User } from  '../../models/user.model';
 
 declare var M:any;
@@ -14,6 +15,7 @@ export class UsersDetailComponent implements OnInit {
  
   private  userId;
   public user:User = new User();
+  private responseModel:ResponseModel=new ResponseModel();
 
 
   constructor(private service:UserService, private route: ActivatedRoute) { }
@@ -26,7 +28,10 @@ export class UsersDetailComponent implements OnInit {
   getUser(id:number){
     this.service.getUser(id).subscribe( 
       data =>{
-        this.user=data;
+        this.responseModel=data;
+        this.user = this.responseModel.data;
+        let year =  this.user.created_at != null ? this.user.created_at.date.split(" "):[];
+        this.user.created_at.date = year[0];
         console.log("USER",this.user);
 
       },
