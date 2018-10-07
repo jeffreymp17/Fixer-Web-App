@@ -8,6 +8,8 @@ export class User{
 	public phone:string;
 	public type:string;
 	public userable: any;
+	public register_date:string;
+	public birthdate: string;
 	public created_at:Date;
 
 	constructor(id:number=-1, name:string="",
@@ -15,6 +17,8 @@ export class User{
 		phone:string="", 
 		type:string="",
 		userable:any = null,
+		register_date:string = "",
+		birthdate:string="",
 		created_at:Date =null){
 		this.id=id;
 		this.name=name;
@@ -23,6 +27,8 @@ export class User{
 		this.phone=phone;
 		this.type = type;
 		this.userable = userable;
+		this.register_date = register_date;
+		this.birthdate = birthdate;
 		this.created_at=created_at;
 	}
 

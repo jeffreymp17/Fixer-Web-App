@@ -26,10 +26,13 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
   	this.getAllUsers();
-    var elems = document.querySelectorAll('select');
-    var modals = document.querySelectorAll('.modal');
+    let select = document.querySelectorAll('select');
+    let modals = document.querySelectorAll('.modal');
+    let datepicker = document.querySelectorAll('.datepicker');
+    var instances = M.Datepicker.init(datepicker, {'container': 'body',
+      'format':'yyyy-mm-dd','yearRange':35});
     var instances = M.Modal.init(modals, []);
-    var instances = M.FormSelect.init(elems, []);
+    var instances = M.FormSelect.init(select, []);
   }
 
   getAllUsers(page=null){
@@ -46,6 +49,8 @@ export class UsersComponent implements OnInit {
   }
 
   public update(user:User){
+    var birthdate = (<HTMLInputElement>document.getElementById('birthdate')).value;
+    this.user.birthdate = birthdate;
       this.service.updateUser(user).subscribe(
         user =>{
           this.toastMessage("successfully updated","rounded green",3000);
@@ -68,6 +73,8 @@ export class UsersComponent implements OnInit {
     }
 
   public save(){
+    var birthdate = (<HTMLInputElement>document.getElementById('birthdate')).value;
+    this.user.birthdate = birthdate;
     this.service.saveUser(this.user).subscribe(
       res=>{
         this.users.unshift(res.data);

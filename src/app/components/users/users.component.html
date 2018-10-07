@@ -92,12 +92,19 @@
           		<label for="lastname" [class.active]="isUpdate">Lastname</label>
 	        </div>	
 
-	        <div class="input-field col s12">
+	        <div class="input-field col s8">
 	        	<i class="material-icons prefix">email</i>
           		<input id="email" type="email" 
           		[(ngModel)]="user.email" name="email" class="validate" required>
           		<label for="email"  [class.active]="isUpdate">Email</label>
         	</div>
+
+ 			<div class="input-field col s4">
+	        	<i class="material-icons prefix">calendar_today</i>
+          		<input id="birthdate" [(ngModel)]="user.birthdate" name="birthdate" type="text" class="datepicker validate" required>
+				<label for="birthdate"  [class.active]="isUpdate">Birthdate</label>
+        	</div>
+
 
         	<div class="input-field col s12 m6">
           		<i class="material-icons prefix">phone</i>
