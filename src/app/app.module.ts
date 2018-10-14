@@ -14,6 +14,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard, LoginGuard } from './auth/auth.guard';
+import { OrdersComponent } from './components/orders/orders.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AuthGuard, LoginGuard } from './auth/auth.guard';
     SidenavComponent,
     DashboardComponent,
     LoginComponent,
+    OrdersComponent,
   ],
   imports: [
    routes,

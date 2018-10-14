@@ -9,7 +9,7 @@ import { UsersDetailComponent } from './components/users-detail/users-detail.com
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard, LoginGuard } from './auth/auth.guard';
-
+import {OrdersComponent} from './components/orders/orders.component';
 const appRoutes:Routes=[
 
 	{ path:'',component:HomeComponent, canActivate:[AuthGuard]},
@@ -19,6 +19,7 @@ const appRoutes:Routes=[
 	{ path:"users/:id",component:UsersDetailComponent,canActivate:[AuthGuard] },
 	{ path:"dashboard", component:DashboardComponent,canActivate:[AuthGuard] },
 	{ path:"login", component:LoginComponent, canActivate:[LoginGuard]},
+	{ path:"orders", component:OrdersComponent, canActivate:[AuthGuard]},
 
 	    // otherwise redirect to home
     { path: '**', redirectTo: '' }

@@ -1,0 +1,43 @@
+<div class="col s12 m12 l12">
+	<div class="col s12 m12 l12 card radius-card hoverable">
+		<div class="row padding-card">
+			<p class="grey-text">List of orders</p>
+			<table class="highligth">
+				<thead>
+					<tr>
+						<th>Breakdown</th>
+						<th>Customer</th>
+						<th>Technician</th>
+						<th>Location</th>
+						<th>Created at</th>
+						<th>Finish at</th>
+						<th>Score</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr  *ngFor="">
+						<td>{{category.description}}</td>
+						<td><a class="btn-floating waves-effect waves-light red"><i class="material-icons" (click)="deleteCategory(category.id)">delete</i></a></td>
+						<td><a class="btn-floating waves-effect waves-light blue"><i class="material-icons" (click)="getCategory(category.id)">edit</i></a></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+
+
+				</tbody>
+				<ul class="pagination">
+					<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+					<li class="active blue" ><a >1</a></li>
+					<li class="waves-effect"><a>2</a></li>
+					<li class="waves-effect"><a>3</a></li>
+					<li class="waves-effect"><a>4</a></li>
+					<li class="waves-effect"><a >5</a></li>
+					<li class="waves-effect"><a ><i class="material-icons">chevron_right</i></a></li>
+				</ul>
+			</table>
+		</div>
+	</div>
+</div>
