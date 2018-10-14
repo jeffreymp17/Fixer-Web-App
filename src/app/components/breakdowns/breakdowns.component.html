@@ -23,7 +23,7 @@
             <label>Categories</label>
           </div>
           <div class="input-field col s6">
-           <Button type="submit" class="waves-effect waves-light btn green"  ><i class="material-icons right" >save</i>Save</Button>
+           <Button type="submit" class="waves-effect waves-light btn green"[disabled]="!breakdown.description||!breakdown.price||!breakdown.category_id"  ><i class="material-icons right" >save</i>Save</Button>
          </div>
        </div>
 
@@ -32,7 +32,7 @@
    </div>
    <div class="col s12 m12 l12 card radius-card hoverable">
     <div class="row padding-card">
-      <p class="grey-text">List of breakcdowns</p>
+      <p class="grey-text">List of breacdowns</p>
       <table class="highligth">
         <thead>
           <tr>
@@ -50,20 +50,27 @@
             <td>{{breakdown.price}}</td>
             <td>{{breakdown.category.description}}</td>
             <td><a class="btn-floating waves-effect waves-light red" (click)="deleteBreakdown(breakdown.id)"><i class="material-icons" >delete</i></a></td>
-            <td><a class="btn-floating waves-effect waves-light blue"><i class="material-icons" >edit</i></a></td>
+            <td><a class="btn-floating waves-effect waves-light blue"><i class="material-icons" (click)="getBreakdown(breakdown.id)">edit</i></a></td>
           </tr>
 
 
         </tbody>
-        <ul class="pagination">
-          <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-          <li class="active blue" ><a >1</a></li>
-          <li class="waves-effect"><a>2</a></li>
-          <li class="waves-effect"><a>3</a></li>
-          <li class="waves-effect"><a>4</a></li>
-          <li class="waves-effect"><a >5</a></li>
-          <li class="waves-effect"><a ><i class="material-icons">chevron_right</i></a></li>
-        </ul>
+       <ul class="pagination">
+            <li [class.disabled]="responseModel.meta.current_page === 1"
+            (click)="getAllBreakdowns(responseModel.meta.current_page-1)">
+              <a><i class="material-icons">chevron_left</i></a>
+            </li>
+            <li *ngFor="let page of pagination"
+          (click)="getAllBreakdowns(page)"
+          [class.active]="responseModel.meta.current_page === page"
+          [class.green] ="responseModel.meta.current_page === page" >
+          <a >{{page}}</a>
+        </li>
+            <li [class.disabled]="responseModel.meta.current_page === responseModel.meta.last_page"
+            (click)="getAllBreakdowns(responseModel.meta.current_page+1,'breakdown')">
+              <a ><i class="material-icons">chevron_right</i></a>
+            </li>
+          </ul>
       </table>
     </div>
   </div>
