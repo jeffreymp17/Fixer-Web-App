@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ResponseModel } from '../../models/response.model';
 import { User } from '../../models/user.model';
 import { Links } from '../../models/links.model';
 import { Meta } from '../../models/meta.model';
 import { Router } from "@angular/router";
+import { Pagination } from '../../utils/pagination.util';
+import { Toast }  from  '../../utils/toast.util';
 
 declare var M:any;
 
@@ -14,8 +16,10 @@ declare var M:any;
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-
+  @ViewChild('form') form;
+  private currentUser:User; 
   private isUpdate = false;
+  private isMale=false;
   private formTitle = "New";
   private responseModel:ResponseModel=new ResponseModel();
   private users:User[];
@@ -25,6 +29,7 @@ export class UsersComponent implements OnInit {
   constructor(private service:UserService,private router:Router) { }
 
   ngOnInit() {
+    this.currentUser =  JSON.parse(localStorage.getItem('currentUser'));
   	this.getAllUsers();
     let select = document.querySelectorAll('select');
     let modals = document.querySelectorAll('.modal');
@@ -36,15 +41,14 @@ export class UsersComponent implements OnInit {
   }
 
   getAllUsers(page=null){
-    let url = this.getUrl(page);
+    let url = Pagination.getUrl(page,this.responseModel,"users");
     this.service.getAllUsers(url).subscribe( 
       data =>{
         this.responseModel=data;
         this.users=this.responseModel.data;
-        this.getPaginate();
+        this.pagination = Pagination.getPaginate(this.responseModel);
       },
-      error => this.toastMessage(error,"rounded red",3000)
-
+      error => Toast.danger(error,Toast.DURATION_LONG)
     );
   }
 
@@ -53,12 +57,12 @@ export class UsersComponent implements OnInit {
     this.user.birthdate = birthdate;
       this.service.updateUser(user).subscribe(
         user =>{
-          this.toastMessage("successfully updated","rounded green",3000);
+          Toast.success("successfully updated",Toast.DURATION_LONG);
           this.getAllUsers();
           this.clearForm();
           this.closeModal();
         },
-        error => this.toastMessage(error,"rounded red",3000)
+        error => Toast.danger(error,Toast.DURATION_LONG)
 
       )
     }
@@ -78,45 +82,41 @@ export class UsersComponent implements OnInit {
     this.service.saveUser(this.user).subscribe(
       res=>{
         this.users.unshift(res.data);
-        this.toastMessage("successfully created","rounded green",3000);
+          Toast.success("successfully created",Toast.DURATION_LONG);
         this.clearForm();
         this.closeModal();
       },
-      error => {
-        this.toastMessage(error,"rounded red",3000);
-      }
+      error => Toast.danger(error,Toast.DURATION_LONG)
+
     );
   }
 
   public delete(userId:number){
-      this.service.deleteUser(userId).subscribe(
+    
+    if (confirm("do you want delete it?")) {
+     this.service.deleteUser(userId).subscribe(
         res=>{
-          console.log('Delete',res);
-          this.toastMessage("successfully deleted","rounded green",3000);
+          Toast.success("successfully deleted",Toast.DURATION_LONG);
           this.getAllUsers();
         },
-        error => {
-          this.toastMessage(error,"rounded red",3000);
-        }
+        error => Toast.danger(error,Toast.DURATION_LONG)
       );
     }
-
-  public toastMessage(html:string,type:string,duration:number){
-      M.toast({html: html, classes: type,timeRemaining:duration});
+      
   }
 
   public clearForm(){
     this.user = new User();
     this.isUpdate=false;
     this.formTitle = "New";
+    this.form.nativeElement.reset()
+
   }
 
-  public getPaginate(){
-    this.pagination =[];    
-    for (var i = 1; i <= this.responseModel.meta.last_page; ++i) {
-      this.pagination.push(i);
-    }
+  genderHandle(event){
+    this.user.gender = event.target.value;
   }
+  
   public getUser(id:number){
     var auxUser = new User()
     this.users.forEach(function(user:User) {
@@ -126,11 +126,11 @@ export class UsersComponent implements OnInit {
     });
     this.user = auxUser;
     this.isUpdate = !this.isUpdate;
+    this.user.gender=="male" ?  this.isMale = true : this.isMale = false;
     this.formTitle = "Update";
   }
 
-  goToDetail(id:number){
-    //alert(id);
+  private goToDetail(id:number){
     this.router.navigate(["/users",id]);
   }
 
@@ -140,14 +140,4 @@ export class UsersComponent implements OnInit {
     instance.close(); 
   }
 
-  private getUrl(page){
-    if(page ==  null){
-      return "users";
-    }
-    else{
-      let last_page = this.responseModel.meta.last_page
-      page = page < last_page ? page : last_page; 
-      return "users?page="+page;
-    }
-  }
 }

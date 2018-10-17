@@ -1,3 +1,112 @@
 .padding-card{
 	margin:5%;
 }
+
+/* select starting stylings ------------------------------*/
+.select {
+  font-family: 
+    'Roboto','Helvetica','Arial',sans-serif !important;
+	position: relative !important;
+	width: 350px !important;
+}
+
+.select-text {
+	position: relative !important;
+	font-family: inherit !important;
+	background-color: transparent !important;
+	width: 350px !important;
+	padding: 10px 10px 10px 0 !important;
+	font-size: 18px !important;
+	border-radius: 0 !important;
+	border: none !important;
+	border-bottom: 1px solid rgba(0,0,0, 0.12) !important;
+}
+
+/* Remove focus */
+.select-text:focus {
+	outline: none !important;
+	border-bottom: 1px solid rgba(0,0,0, 0) !important;
+}
+
+	/* Use custom arrow */
+.select .select-text {
+	appearance: none !important;
+	-webkit-appearance:none
+}
+
+.select:after {
+	position: absolute !important;
+	top: 18px !important;
+	right: 10px !important;
+	/* Styling the down arrow */
+	width: 0 !important;
+	height: 0 !important;
+	padding: 0 !important;
+	content: '' !important;
+	border-left: 6px solid transparent !important;
+	border-right: 6px solid transparent !important;
+	border-top: 6px solid rgba(0, 0, 0, 0.12) !important;
+	pointer-events: none !important;
+}
+
+
+/* LABEL ======================================= */
+.select-label {
+	color: rgba(0,0,0, 0.26) !important;
+	font-size: 18px !important;
+	font-weight: normal !important;
+	position: absolute !important;
+	pointer-events: none !important;
+	left: 0 !important;
+	top: 10px !important;
+	transition: 0.2s ease all !important;
+}
+
+/* active state */
+.select-text:focus ~ .select-label, .select-text:valid ~ .select-label {
+	color: #26a69a !important;
+	top: -20px !important;
+	transition: 0.2s ease all !important;
+	font-size: 14px !important;
+}
+
+/* BOTTOM BARS ================================= */
+.select-bar {
+	position: relative !important;
+	display: block !important;
+	width: 350px !important;
+}
+
+.select-bar:before, .select-bar:after {
+	content: '' !important;
+	height: 2px !important;
+	width: 0 !important;
+	bottom: 1px !important;
+	position: absolute !important;
+	background: #26a69a !important;
+	transition: 0.2s ease all !important;
+}
+
+.select-bar:before {
+	left: 50% !important;
+}
+
+.select-bar:after {
+	right: 50% !important;  
+}
+
+/* active state */
+.select-text:focus ~ .select-bar:before, .select-text:focus ~ .select-bar:after {
+	width: 50% !important;
+}
+
+/* HIGHLIGHTER ================================== */
+.select-highlight {
+	position: absolute !important;
+	height: 60% !important;
+	width: 100px !important; 
+	top: 25% !important;
+	left: 0 !important;
+	pointer-events: none !important;
+	opacity: 0.5 !important;
+}

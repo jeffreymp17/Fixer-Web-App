@@ -1,13 +1,13 @@
 <div class="row">
-  	<div class="col s12">
+	<div class="col s12">
   		<div id="profile-page-header" class="card">
 
   			<div class="card-image waves-effect waves-block waves-light">
-  				<img class="activator" src="assets/img/bg-02.png" alt="user background">
+  				<img class="activator" src="{{user.settings.banner_img}}" alt="user background">
   			</div>
 
   			<figure class="card-profile-image">
-  				<img src="assets/img/avatar-7.png" alt="profile image" class="circle z-depth-2 responsive-img activator gradient-45deg-light-blue-cyan gradient-shadow">
+  				<img src="{{user.picture}}" alt="profile image" class="circle z-depth-2 responsive-img  gradient-45deg-light-blue-cyan gradient-shadow modal-trigger" data-target="uploadPictureModal">
   			</figure>
 
   			<div class="card-content">
@@ -15,6 +15,7 @@
   					<div class="col s12 m3 offset-m2">
   						<h4 class="card-title grey-text text-darken-4" >{{user.name}} {{user.lastname}}</h4>
   						<p class="medium-small grey-text">{{user.type}}</p>
+
   					</div>
   					<div class="col s12 m2 center-align" *ngIf="(user.userable!=null)">
   						<h4 class="card-title grey-text text-darken-4">{{user.userable.score}}</h4>
@@ -56,9 +57,10 @@
 					<i class="material-icons cyan-text text-darken-2">cake</i> {{user.birthdate}}
 				</p>
 			</div>
-		</div>
 	</div>
-</div>  	
+</div>
+
+
 <div class="fixed-action-btn">
 	<a [routerLink]="['/users']" class="btn-floating btn-large gradient-45deg-amber-amber">
 		<i class="large material-icons">arrow_back
@@ -69,3 +71,27 @@
 <ng-template #elsePhone>
 	<span>Unregistered phone</span>
 </ng-template>
+
+<div id="uploadPictureModal" class="modal">
+    <div class="modal-content">
+      <form action="#"  #form>
+        <h5>Change profile picture</h5>
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>Picture</span>
+            <input type="file" (change)="onFileChanged($event)">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+          </div>
+        </div>
+          <div class="input-field right">
+              <Button (click)="onUpload()" class="waves-effect waves-light btn green"  ><i class="material-icons right" >cloud_upload</i>Upload</Button>
+          </div>
+          <div class="input-field right mr-2">
+              <a (click)="clearForm()" class="modal-close waves-effect waves-light btn red">
+                <i class="material-icons right">cancel</i>Cancel</a>
+            </div>
+      </form>
+    </div>
+</div>

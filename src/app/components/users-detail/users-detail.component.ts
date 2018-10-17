@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { ResponseModel } from '../../models/response.model';
@@ -14,16 +14,21 @@ declare var M:any;
 export class UsersDetailComponent implements OnInit {
  
   private  userId;
+  selectedFile: File;
   public user:User = new User();
   private responseModel:ResponseModel=new ResponseModel();
-
+  @ViewChild('form') form;
 
   constructor(private service:UserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
   	this.userId = this.route.snapshot.params.id;
   	this.getUser(this.userId);
+    let modals = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(modals, []);
   }
+
+
 
   getUser(id:number){
     this.service.getUser(id).subscribe( 
@@ -44,4 +49,30 @@ export class UsersDetailComponent implements OnInit {
       M.toast({html: html, classes: type,timeRemaining:duration});
   }
 
+  onFileChanged(event) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  onUpload() {
+    const uploadData = new FormData();
+    uploadData.append('picture', this.selectedFile, this.selectedFile.name);
+    
+    this.service.uploadPicture(this.user.id,uploadData).subscribe( 
+      data => {
+       this.toastMessage("Picture updated", "rounded green",3000);
+       this.closeModal();
+       this.getUser(this.user.id);
+       this.clearForm();
+      },
+      error => this.toastMessage(error,"rounded red",3000)
+    );
+  }
+  private closeModal() {
+    var elem= document.querySelector('.modal');
+    var instance = M.Modal.init(elem);
+    instance.close(); 
+  }
+  private clearForm(){
+    this.form.nativeElement.reset()
+  }
 }

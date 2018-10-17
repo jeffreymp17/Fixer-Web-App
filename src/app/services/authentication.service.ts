@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { throwError as observableThrowError } from 'rxjs';
 import { User } from '../models/user.model';
+import { Toast } from '../utils/toast.util';
 
 @Injectable({
   providedIn: 'root'
@@ -38,10 +39,17 @@ export class AuthenticationService {
             .pipe(catchError(this.errorHandler));
     }
 
-    logout() {
-        // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-        this.loggedIn.next(false);
+    logout(email:string, token:string) {
+        return this.http.post<any>(environment.apiUrl+"logout/", { email: email, api_token: token })
+        .pipe(catchError(this.errorHandler))
+        .subscribe(
+            data=>{
+                Toast.success(data,Toast.DURATION_SHORT);
+                localStorage.removeItem('currentUser');
+                this.loggedIn.next(false);
+            }, 
+            error=> Toast.danger(error,Toast.DURATION_SHORT)
+        );        
     }
 
     errorHandler(httpError: HttpErrorResponse){

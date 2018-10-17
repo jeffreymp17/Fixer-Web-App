@@ -28,7 +28,7 @@ export class UserService {
   }
 
   saveUser(user:User):Observable<any>{
-    console.log("USER",user);
+    user.password = "secret";
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let body=JSON.stringify(user);
     return this.http.post(environment.apiUrl+'users',user)
@@ -42,6 +42,12 @@ export class UserService {
     return this.http.put<User>(environment.apiUrl+'users/'+user.id,user)
             .pipe(catchError(this.errorHandler));
   }
+
+  uploadPicture(id,formdata){
+    return this.http.post(environment.apiUrl+'users/'+id+'/picture',formdata)
+    .pipe(catchError(this.errorHandler));
+  }
+
   errorHandler(httpError: HttpErrorResponse){
   	 return observableThrowError(httpError.error[0] || "Server error");
   }

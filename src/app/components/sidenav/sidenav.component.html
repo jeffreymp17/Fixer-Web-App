@@ -11,11 +11,11 @@
       <li>
         <div class="user-view">
           <div class="background gradient-45deg-light-blue-indigo">
-            <img src="assets/img/bg-01.png">
+            <img src="{{currentUser.settings.sidenav_img}}">
           </div>
-          <a><img class="circle" src="assets/img/avatar-7.png"></a>
-          <a><span class="white-text name">Zack Snaider</span></a>
-          <a><span class="white-text email">Administrator</span></a>
+          <a><img class="circle" src="{{currentUser.picture}}"></a>
+          <a><span class="white-text name">{{currentUser.name}} {{currentUser.lastname}}</span></a>
+          <a><span class="white-text email">{{currentUser.email}}</span></a>
         </div>
       </li>    
     <li class="no-padding">

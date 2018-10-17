@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 import {map}from'rxjs/operators';
 import {Breakdown} from '../models/breakdown.model';
 import { catchError } from 'rxjs/operators';
-import {ServiceError} from '../utils/ServiceErrors';
+import {ServiceError} from '../utils/serviceError.util';
 @Injectable({
   providedIn: 'root'
 })
@@ -26,7 +26,6 @@ export class BreakdownService {
    saveBreakdown(breakdown:Breakdown):Observable<any>{
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let body=JSON.stringify(breakdown);
-    console.log("in service:",body);
     return this.http.post(environment.apiUrl+'breakdown',breakdown).pipe(map((res=>res)));
   }
    deleteBreakdown(idBreakdown:number){

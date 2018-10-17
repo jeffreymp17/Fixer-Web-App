@@ -1,5 +1,7 @@
 import {ResponseModel} from '../models/response.model';
-export class PaginationUtils{
+
+export class Pagination{
+
 	static getUrl(page,responseModel:ResponseModel,listName:string){
 		if(page ==  null){
 			return listName;
@@ -7,7 +9,7 @@ export class PaginationUtils{
 		else{
 			let last_page = responseModel.meta.last_page
 			page = page < last_page ? page : last_page; 
-			return `${listName}?${page}=${page}`;
+			return `${listName}?page=${page}`;
 		}
 	}
 	static getPaginate(responseModel:ResponseModel){
@@ -15,5 +17,6 @@ export class PaginationUtils{
     for (var i = 1; i <= responseModel.meta.last_page; ++i) {
       pagination.push(i);
     }
+    return pagination;
   }
 }
