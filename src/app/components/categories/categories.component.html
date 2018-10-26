@@ -55,7 +55,7 @@
       </li>
 
       <li [class.disabled]="responseModel.meta.current_page === responseModel.meta.last_page"
-          (click)="getAllCategories(responseModel.meta.current_page+1,'breakdown')">
+          (click)="getAllCategories(responseModel.meta.current_page+1)">
         <a ><i class="material-icons">chevron_right</i></a>
       </li>
     </ul>

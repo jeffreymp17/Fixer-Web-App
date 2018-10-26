@@ -10,7 +10,7 @@ import { User } from '../../models/user.model';
 })
 export class SidenavComponent implements OnInit {
   
-  private currentUser:User; 
+  currentUser:User; 
   constructor(private router:Router) {
   }
 

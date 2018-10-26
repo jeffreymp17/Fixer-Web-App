@@ -17,16 +17,16 @@ declare var M:any;
 })
 export class BreakdownsComponent implements OnInit {
 
-	private createFormState:boolean=true;
-	private responseModel:ResponseModel=new ResponseModel();
-	private categories:Category[];
-	private category:Category;
-	private isUpdate:boolean;
-	private breakdowns:Breakdown[];
-	private materialIcon:string='add';
-	private fabColor:string='gradient-45deg-green-teal';
-	private pagination=[];
-	public breakdown:Breakdown;
+	createFormState:boolean=true;
+	responseModel:ResponseModel=new ResponseModel();
+	categories:Category[];
+	category:Category;
+	isUpdate:boolean;
+	breakdowns:Breakdown[];
+	materialIcon:string='add';
+	fabColor:string='gradient-45deg-green-teal';
+	pagination=[];
+	breakdown:Breakdown;
 
 
 	constructor(private categoryService:CategoryService,private breakdownService:BreakdownService,private zone:NgZone) {

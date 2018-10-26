@@ -72,7 +72,7 @@ export class UsersDetailComponent implements OnInit {
     var instance = M.Modal.init(elem);
     instance.close(); 
   }
-  private clearForm(){
+  clearForm(){
     this.form.nativeElement.reset()
   }
 }

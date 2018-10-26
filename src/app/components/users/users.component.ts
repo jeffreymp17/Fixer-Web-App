@@ -17,14 +17,14 @@ declare var M:any;
 })
 export class UsersComponent implements OnInit {
   @ViewChild('form') form;
-  private currentUser:User; 
-  private isUpdate = false;
-  private isMale=false;
-  private formTitle = "New";
-  private responseModel:ResponseModel=new ResponseModel();
-  private users:User[];
-  private pagination=[];
-  public user:User = new User();
+  currentUser:User; 
+  isUpdate = false;
+  isMale=false;
+  formTitle = "New";
+  responseModel:ResponseModel=new ResponseModel();
+  users:User[];
+  pagination=[];
+  user:User = new User();
 
   constructor(private service:UserService,private router:Router) { }
 

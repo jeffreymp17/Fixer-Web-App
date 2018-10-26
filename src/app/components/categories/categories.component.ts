@@ -14,14 +14,14 @@ declare var M:any;
   styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
-  private createFormState:boolean=true;
-  private responseModel:ResponseModel;
-  private categories:Category[];
-  private category:Category;
-  private isUpdate:boolean;
-  private materialIcon:string='add';
-  private fabColor:string='gradient-45deg-green-teal';
-  private pagination=[];
+  createFormState:boolean=true;
+  responseModel:ResponseModel;
+  categories:Category[];
+  category:Category;
+  isUpdate:boolean;
+  materialIcon:string='add';
+  fabColor:string='gradient-45deg-green-teal';
+  pagination=[];
 
   constructor(private service:CategoryService,private zone:NgZone) {
     this.category=new Category();
