@@ -26,11 +26,12 @@ export class AuthenticationService {
             'Content-Type' : 'application/json',
             'Cache-Control': 'no-cache'
         });  
+        let data = { email: email, password: password, app:"web" };
         let options = {
-    headers: httpHeaders
-     };
-        console.log("email",email);
-        return this.http.post<any>("https://fixercr.herokuapp.com/api/login/", { email: email, password: password },options)
+            headers: httpHeaders
+        };
+        console.log("data",data);
+        return this.http.post<any>(environment.apiUrl+"login/", data ,options)
             .pipe(map(response => {
                 this.user = response.data;
                 console.log("user",this.user);
