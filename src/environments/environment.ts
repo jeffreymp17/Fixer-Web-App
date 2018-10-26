@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl:window.location.protocol+"//fixercr.herokuapp.com/api/"
+  apiUrl:"https://fixercr.herokuapp.com"
 
 };
 

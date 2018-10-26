@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpErrorResponse } from '@angular/common/http';
+import { HttpClient,HttpErrorResponse,HttpHeaders } from '@angular/common/http';
 import { map,catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
@@ -22,8 +22,15 @@ export class AuthenticationService {
   	}
 
     login(email: string, password: string) {
+        let httpHeaders = new HttpHeaders({
+            'Content-Type' : 'application/json',
+            'Cache-Control': 'no-cache'
+        });  
+        let options = {
+    headers: httpHeaders
+     };
         console.log("email",email);
-        return this.http.post<any>(environment.apiUrl+"login/", { email: email, password: password })
+        return this.http.post<any>(environment.apiUrl+"/api/login/", { email: email, password: password },options)
             .pipe(map(response => {
                 this.user = response.data;
                 console.log("user",this.user);
