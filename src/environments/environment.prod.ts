@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl:"https://fixercr.herokuapp.com/api/"
+  apiUrl:window.location.protocol+"//fixercr.herokuapp.com/api/"
 
 };
