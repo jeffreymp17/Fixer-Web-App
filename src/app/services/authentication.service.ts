@@ -25,27 +25,6 @@ export class AuthenticationService {
         return this.loggedIn;
     }
 
-    login(email: string, password: string) {
-      
-        let data = { email: email, password: password, app:"web" };
-      
-        console.log("data",data);
-        return this.http.post<any>(environment.apiUrl+"login/", data)
-            .pipe(map(response => {
-                this.user = response.data;
-                console.log("user",this.user);
-                // login successful if there's token in the response
-                if (this.user && this.user.token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(this.user));
-                    this.loggedIn.next(true);
-                }
-
-                return this.user;
-            }))
-            .pipe(catchError(this.errorHandler));
-    }
-
     logout(email:string, token:string) {
         let data = { email: email, api_token: token };
         return this.http.post<any>(environment.apiUrl+"logout/",data)
@@ -61,7 +40,8 @@ export class AuthenticationService {
     }
 
     login1(data):Observable<any>{
-        return this.http.post(environment.apiUrl+'login/',data)
+        console.log("Data",data);
+        return this.http.post(environment.apiUrl+'fixer/login/',data)
             .pipe(catchError(this.errorHandler));
     }
 
