@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpEventType } from '@angular/common/http';
 
 import { AuthenticationService } from '../../services/authentication.service';
-import { Login } from '../../services/login.service';
+
 declare var M:any;
 
 @Component({
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   password:string;
   progressHidden:boolean = true;
 
-  constructor(private service:Login, private router:Router) { }
+  constructor(private service:AuthenticationService, private router:Router) { }
 
   ngOnInit() {
   	const body = document.getElementsByTagName('body')[0];
@@ -34,36 +34,22 @@ export class LoginComponent implements OnInit {
     this.login();
   }
 
-  // login(){
-  //   this.progressHidden = false;
-  //   let data = { email: this.email, password: this.password, app:"web" };
-  //   this.service.login(data).subscribe(
-  //     data => {
-  //       let user = data.data;
-  //       console.log("user",user);
-  //       if (user && user.token) {
-  //         // store user details and jwt token in local storage to keep user logged in between page refreshes
-  //         localStorage.setItem('currentUser', JSON.stringify(user));
-  //         this.service.getLoggedIn.next(true);
-
-  //         this.router.navigate(['/']);
-  //         this.toastMessage("Welcome "+user.name,"rounded gradient-45deg-green-teal",2000);
-  //         this.progressHidden=true;
-  //       }
-  //     },
-  //     error =>{
-  //       this.toastMessage(error,"rounded red",3000);
-  //       this.progressHidden=true;
-  //     }
-  //   );
-  // }
-
   login(){
+    this.progressHidden = false;
     let data = { email: this.email, password: this.password, app:"web" };
     this.service.login(data).subscribe(
       data => {
         let user = data.data;
         console.log("user",user);
+        if (user && user.token) {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.service.getLoggedIn.next(true);
+
+          this.router.navigate(['/']);
+          this.toastMessage("Welcome "+user.name,"rounded gradient-45deg-green-teal",2000);
+          this.progressHidden=true;
+        }
       },
       error =>{
         this.toastMessage(error,"rounded red",3000);
