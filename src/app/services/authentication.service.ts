@@ -12,7 +12,6 @@ import { Toast } from '../utils/toast.util';
 })
 export class AuthenticationService {
 	private loggedIn = new BehaviorSubject<boolean>(this.isUserInSesion());
-    private user:User = new User();
 
     constructor(private http: HttpClient) { }
 
@@ -39,9 +38,9 @@ export class AuthenticationService {
         );        
     }
 
-    login1(data):Observable<any>{
+    login(data):Observable<any>{
         console.log("Data",data);
-        return this.http.post(environment.apiUrl+'fixer/login/',data)
+        return this.http.post(environment.apiUrl+'login/',data)
             .pipe(catchError(this.errorHandler));
     }
 
