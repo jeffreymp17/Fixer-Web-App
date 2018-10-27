@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpEventType } from '@angular/common/http';
 
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -13,6 +14,7 @@ declare var M:any;
 export class LoginComponent implements OnInit {
   email:string;
   password:string;
+  public progressHidden = false;
   constructor(private service:AuthenticationService, private router:Router) { }
 
   ngOnInit() {
@@ -27,15 +29,31 @@ export class LoginComponent implements OnInit {
 
   actions(event){
     event.preventDefault();
-      M.updateTextFields();
-      this.service.login(this.email,this.password).subscribe( 
-      data =>{
-        this.router.navigate(['/']);
+    M.updateTextFields();
+    this.login();
+  }
 
-        this.toastMessage("Welcome "+data.name,"rounded gradient-45deg-green-teal",2000);
+  login(){
+    this.progressHidden = false;
+    let data = { email: this.email, password: this.password, app:"web" };
+    this.service.login1(data).subscribe(
+      response => {
+        let user = response.data;
+        console.log("user",user);
+        if (user && user.token) {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.service.getLoggedIn.next(true);
+
+          this.router.navigate(['/']);
+          this.toastMessage("Welcome "+user.name,"rounded gradient-45deg-green-teal",2000);
+          this.progressHidden=true;
+        }
       },
-      error => this.toastMessage(error,"rounded red",3000)
-
+      error =>{
+        this.toastMessage(error,"rounded red",3000);
+        this.progressHidden=true;
+      }
     );
   }
 

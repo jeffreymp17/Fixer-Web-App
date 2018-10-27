@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpErrorResponse,HttpHeaders } from '@angular/common/http';
 import { map,catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { throwError as observableThrowError } from 'rxjs';
 import { User } from '../models/user.model';
 import { Toast } from '../utils/toast.util';
@@ -21,17 +21,16 @@ export class AuthenticationService {
     	return this.loggedIn.asObservable();
   	}
 
+    get getLoggedIn() {
+        return this.loggedIn;
+    }
+
     login(email: string, password: string) {
-        let httpHeaders = new HttpHeaders({
-            'Content-Type' : 'application/json',
-            'Cache-Control': 'no-cache'
-        });  
+      
         let data = { email: email, password: password, app:"web" };
-        let options = {
-            headers: httpHeaders
-        };
+      
         console.log("data",data);
-        return this.http.post<any>(environment.apiUrl+"login/", data ,options)
+        return this.http.post<any>(environment.apiUrl+"login/", data)
             .pipe(map(response => {
                 this.user = response.data;
                 console.log("user",this.user);
@@ -48,7 +47,8 @@ export class AuthenticationService {
     }
 
     logout(email:string, token:string) {
-        return this.http.post<any>(environment.apiUrl+"logout/", { email: email, api_token: token })
+        let data = { email: email, api_token: token };
+        return this.http.post<any>(environment.apiUrl+"logout/",data)
         .pipe(catchError(this.errorHandler))
         .subscribe(
             data=>{
@@ -58,6 +58,11 @@ export class AuthenticationService {
             }, 
             error=> Toast.danger(error,Toast.DURATION_SHORT)
         );        
+    }
+
+    login1(data):Observable<any>{
+        return this.http.post(environment.apiUrl+'login/',data)
+            .pipe(catchError(this.errorHandler));
     }
 
     errorHandler(httpError: HttpErrorResponse){
