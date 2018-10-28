@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpEventType } from '@angular/common/http';
 
-import { AuthenticationService } from '../../services/authentication.service';
+import { AuthService } from '../../services/auth.service';
 
 declare var M:any;
 
@@ -16,7 +15,7 @@ export class LoginComponent implements OnInit {
   password:string;
   progressHidden:boolean = true;
 
-  constructor(private service:AuthenticationService, private router:Router) { }
+  constructor(private service:AuthService, private router:Router) { }
 
   ngOnInit() {
   	const body = document.getElementsByTagName('body')[0];
@@ -35,6 +34,15 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
+    let authData = { email: this.email, password: this.password, app:"web" };
+    this.service.login(authData).subscribe(
+      res=> {
+          console.log(res.data);
+      },
+      error=> console.log(error)
+    );
+  }
+  /*login(){
     this.progressHidden = false;
     let data = { email: this.email, password: this.password, app:"web" };
     this.service.login(data).subscribe(
@@ -56,10 +64,6 @@ export class LoginComponent implements OnInit {
         this.progressHidden=true;
       }
     );
-  }
-
-  private toastMessage(html:string,type:string,duration:number){
-      M.toast({html: html, classes: type,timeRemaining:duration});
-  }
+  }*/
 
 }

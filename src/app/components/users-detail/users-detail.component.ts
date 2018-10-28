@@ -3,6 +3,10 @@ import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { ResponseModel } from '../../models/response.model';
 import { User } from  '../../models/user.model';
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Toast }  from  '../../utils/toast.util';
 
 declare var M:any;
 
@@ -17,9 +21,18 @@ export class UsersDetailComponent implements OnInit {
   selectedFile: File;
   public user:User = new User();
   private responseModel:ResponseModel=new ResponseModel();
+  ref: AngularFireStorageReference;
+  task: AngularFireUploadTask;
+  uploadState: Observable<string>;
+  uploadProgress: Observable<number>;
+  downloadURL: Observable<string>;
+  isHidden: Boolean = true;
+
   @ViewChild('form') form;
 
-  constructor(private service:UserService, private route: ActivatedRoute) { }
+  constructor(private service:UserService, 
+              private route: ActivatedRoute,
+              private afStorage: AngularFireStorage) { }
 
   ngOnInit() {
   	this.userId = this.route.snapshot.params.id;
@@ -66,6 +79,36 @@ export class UsersDetailComponent implements OnInit {
       },
       error => this.toastMessage(error,"rounded red",3000)
     );
+  }
+
+  fireBaseUpload(){
+    this.isHidden = false;
+    Toast.info("Updating...");
+    this.ref = this.afStorage.ref(this.userId+"");
+    this.task = this.ref.put(this.selectedFile);
+    this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
+    this.uploadProgress = this.task.percentageChanges();
+    this.closeModal();
+
+    this.uploadProgress.subscribe(data=>{
+      if(data == 100) 
+        this.ref.getDownloadURL().subscribe(
+          url=>{
+            this.isHidden = true;
+            this.user.picture = url;
+            this.update(this.user);
+          }
+        );
+    });
+  }
+
+  public update(user:User){
+    this.service.updateUser(user).subscribe(
+      user =>{
+        Toast.success("successfully updated",Toast.DURATION_SHORT);
+      },
+      error => Toast.danger(error,Toast.DURATION_LONG)
+    )
   }
   private closeModal() {
     var elem= document.querySelector('.modal');
