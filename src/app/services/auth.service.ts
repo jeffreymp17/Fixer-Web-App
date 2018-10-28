@@ -28,6 +28,11 @@ export class AuthService {
     		.pipe(catchError(this.errorHandler))    
   }
 
+  logout(data):Observable<any>{
+    return this.http.post<any>(environment.apiUrl+"logout/",data)
+    .pipe(catchError(this.errorHandler))    
+  }
+
   errorHandler(httpError: HttpErrorResponse){
     return observableThrowError(httpError.error[0] || "Server error");
  }
