@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { throwError as observableThrowError, Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable, BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -8,7 +8,19 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
-
+  private session = new BehaviorSubject(this.isUserInSesion());
+  
+  public get isInSession(){
+      return this.session;
+  }
+  
+  private isUserInSesion(){
+    if (localStorage.getItem('currentUser')) {
+        // logged in so return true
+        return true;
+    }
+    return false;
+}
   constructor(private http: HttpClient) { }
 
   login(data):Observable<any>{
@@ -19,4 +31,5 @@ export class AuthService {
   errorHandler(httpError: HttpErrorResponse){
     return observableThrowError(httpError.error[0] || "Server error");
  }
+ 
 }

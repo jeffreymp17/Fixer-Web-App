@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { Toast }  from  '../../utils/toast.util';
 import { AuthService } from '../../services/auth.service';
 
 declare var M:any;
@@ -34,36 +34,24 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
+    this.progressHidden = false;
     let authData = { email: this.email, password: this.password, app:"web" };
     this.service.login(authData).subscribe(
       res=> {
           console.log(res.data);
-      },
-      error=> console.log(error)
-    );
-  }
-  /*login(){
-    this.progressHidden = false;
-    let data = { email: this.email, password: this.password, app:"web" };
-    this.service.login(data).subscribe(
-      data => {
-        let user = data.data;
-        console.log("user",user);
-        if (user && user.token) {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.service.getLoggedIn.next(true);
-
-          this.router.navigate(['/']);
-          this.toastMessage("Welcome "+user.name,"rounded gradient-45deg-green-teal",2000);
-          this.progressHidden=true;
-        }
+          let user = res.data;
+          if(user && user.token){
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.router.navigate(['/']);
+            Toast.success("Welcome "+user.name,Toast.DURATION_SHORT);
+            this.progressHidden=true;
+            this.service.isInSession.next(true);
+          }
       },
       error =>{
-        this.toastMessage(error,"rounded red",3000);
+        Toast.danger(error,Toast.DURATION_SHORT);
         this.progressHidden=true;
       }
     );
-  }*/
-
+  }
 }
