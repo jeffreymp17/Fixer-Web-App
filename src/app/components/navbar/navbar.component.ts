@@ -9,24 +9,22 @@ import { Toast }  from  '../../utils/toast.util';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  private currentUser:User; 
+  currentUser:User; 
   constructor(private service:AuthService) { }
 
   ngOnInit() {
   	this.currentUser =  JSON.parse(localStorage.getItem('currentUser'));
-
   }
 
   logout(){
-    let data = { email: this.currentUser.email, api_token: this.currentUser.token };
-  	this.service.logout(data).subscribe(
+    let authData = { email: this.currentUser.email, api_token: this.currentUser.token };
+  	this.service.logout(authData).subscribe(
       res=>{
         Toast.success(res,Toast.DURATION_SHORT);
         localStorage.removeItem('currentUser');
         this.service.isInSession.next(false);
       },
       error=> Toast.danger(error,Toast.DURATION_SHORT)
-
     );
   }
 }

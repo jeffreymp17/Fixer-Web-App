@@ -17,10 +17,10 @@ declare var M:any;
 })
 export class UsersDetailComponent implements OnInit {
  
-  private  userId;
+  userId;
   selectedFile: File;
   public user:User = new User();
-  private responseModel:ResponseModel=new ResponseModel();
+  responseModel:ResponseModel=new ResponseModel();
   ref: AngularFireStorageReference;
   task: AngularFireUploadTask;
   uploadState: Observable<string>;
@@ -50,8 +50,6 @@ export class UsersDetailComponent implements OnInit {
         this.user = this.responseModel.data;
         let year =  this.user.created_at != null ? this.user.created_at.date.split(" "):[];
         this.user.created_at.date = year[0];
-        console.log("USER",this.user);
-
       },
       error => this.toastMessage(error,"rounded red",3000)
 
@@ -64,21 +62,6 @@ export class UsersDetailComponent implements OnInit {
 
   onFileChanged(event) {
     this.selectedFile = event.target.files[0];
-  }
-
-  onUpload() {
-    const uploadData = new FormData();
-    uploadData.append('picture', this.selectedFile, this.selectedFile.name);
-    
-    this.service.uploadPicture(this.user.id,uploadData).subscribe( 
-      data => {
-       this.toastMessage("Picture updated", "rounded green",3000);
-       this.closeModal();
-       this.getUser(this.user.id);
-       this.clearForm();
-      },
-      error => this.toastMessage(error,"rounded red",3000)
-    );
   }
 
   fireBaseUpload(){
@@ -106,6 +89,7 @@ export class UsersDetailComponent implements OnInit {
     this.service.updateUser(user).subscribe(
       user =>{
         Toast.success("successfully updated",Toast.DURATION_SHORT);
+        
       },
       error => Toast.danger(error,Toast.DURATION_LONG)
     )
