@@ -1,7 +1,23 @@
 <div class="row">
 	<div  class="col s12 card radius-card hoverable">
 		<h4 class=" grey-text left">Users</h4>
-		<table class="responsive-table highlight">
+		
+		
+		<div [hidden]="progressHidden">
+			<div   class="preloader-wrapper big active loader">
+				<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div><div class="gap-patch">
+					<div class="circle"></div>
+				</div><div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+				</div>
+			</div>
+		</div>
+			  
+		<table class="highligth responsive-table" [hidden]="!progressHidden">
 			<thead>
 				<tr>
 					<th>Type</th>

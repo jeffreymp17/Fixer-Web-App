@@ -36,7 +36,10 @@
 
 				<br />
 				<div class='row'>
-					<button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect gradient-45deg-green-teal'>Login</button>
+					<button type='submit'
+					 name='btn_login' 
+					 class='col s12 btn btn-large waves-effect gradient-45deg-green-teal'
+					 [disabled]="!progressHidden">Login</button>
 				</div>
 			</form>
 		</div>

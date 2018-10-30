@@ -1,4 +1,4 @@
-import { Component, OnInit,NgZone } from '@angular/core';
+import { Component, OnInit,NgZone, ViewChild } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { BreakdownService } from '../../services/breakdown.service';
 import { ResponseModel } from '../../models/response.model';
@@ -16,6 +16,7 @@ declare var M:any;
 	styleUrls: ['./breakdowns.component.css']
 })
 export class BreakdownsComponent implements OnInit {
+	@ViewChild('form') form;
 
 	createFormState:boolean=true;
 	responseModel:ResponseModel=new ResponseModel();
@@ -23,10 +24,11 @@ export class BreakdownsComponent implements OnInit {
 	category:Category;
 	isUpdate:boolean;
 	breakdowns:Breakdown[];
-	materialIcon:string='add';
-	fabColor:string='gradient-45deg-green-teal';
 	pagination=[];
 	breakdown:Breakdown;
+	progressHidden:boolean = false;
+	formTitle = "New";
+
 
 
 	constructor(private categoryService:CategoryService,private breakdownService:BreakdownService,private zone:NgZone) {
@@ -36,8 +38,13 @@ export class BreakdownsComponent implements OnInit {
 
 	ngOnInit() {
 		this.getAllCategories();
-		this.initSelectCategory();
 		this.getAllBreakdowns();
+		let select = document.querySelectorAll('select');
+		let modal = document.querySelectorAll('.modal');
+		M.FormSelect.init(select,[]);
+		M.Modal.init(modal, []);
+
+
 	}
 	public getAllCategories(){
 		this.categoryService.getAllCategories("category").subscribe(
@@ -49,37 +56,27 @@ export class BreakdownsComponent implements OnInit {
 	}
 	public getAllBreakdowns(url=null){
 		let page =Pagination.getUrl(url,this.responseModel,"breakdown");
-		this.breakdownService.getAllBreakdowns(page).subscribe((data)=>{
-			this.responseModel=data;
-			this.breakdowns=this.responseModel.data;
-			this.pagination=Pagination.getPaginate(this.responseModel);
-		});
+		this.breakdownService.getAllBreakdowns(page).subscribe(
+			data=>{
+				this.responseModel=data;
+				this.breakdowns=this.responseModel.data;
+				this.pagination=Pagination.getPaginate(this.responseModel);
+				this.progressHidden = true;
+			},
+			error => Toast.danger(error,Toast.DURATION_SHORT)
+		);
 	}
-	public initSelectCategory(){
-		let elems = document.querySelectorAll('select');
-		let instances = M.FormSelect.init(elems,[]);
-	}
+
 	
-	onTap(){
-		this.createFormState=!this.createFormState;
-		if(!this.createFormState){
-			this.materialIcon='close';
-			this.fabColor='gradient-45deg-red-pink';
-		}else{
-			this.materialIcon='add';
-			this.fabColor='gradient-45deg-green-teal';
-			this.clearForm();
-		}
-	}
 	public saveBreakdown(){
 		this.breakdownService.saveBreakdown(this.breakdown).subscribe(
 			res=>{
-				this.breakdowns.push(res.data);
+				this.breakdowns.unshift(res.data);
           		Toast.success("successfully created",Toast.DURATION_LONG);
 				this.clearForm();
+				this.closeModal();
 			},
 			error => Toast.danger(error,Toast.DURATION_LONG)
-
 		);
 	}
 	
@@ -88,6 +85,7 @@ export class BreakdownsComponent implements OnInit {
 		if(!this.isUpdate){
 			this.saveBreakdown();
 		}else{
+			M.updateTextFields();
       		this.updateBreakdown(this.breakdown);
 		}
 	}
@@ -103,7 +101,6 @@ export class BreakdownsComponent implements OnInit {
 		}
 	}
 	public getBreakdown(breakdownId:number){
-		this.onTap();
 		this.isUpdate=!this.isUpdate;
 		let auxBreakdown=new Breakdown();
 		this.breakdowns.forEach((breakdown)=>{
@@ -119,6 +116,7 @@ export class BreakdownsComponent implements OnInit {
        			this.getAllBreakdowns();
           		Toast.success("successfully updated",Toast.DURATION_LONG);
 				this.clearForm();
+				this.closeModal();
 			},
 			error => Toast.danger(error,Toast.DURATION_LONG)
 
@@ -127,7 +125,14 @@ export class BreakdownsComponent implements OnInit {
 
 	clearForm(){
     	this.breakdown = new Breakdown();
-    	this.isUpdate=false;
+		this.isUpdate=false;
+		this.formTitle = "New";
+		this.form.nativeElement.reset()
   	}
 
+	private closeModal() {
+		var elem= document.querySelector('.modal');
+		var instance = M.Modal.init(elem);
+		instance.close(); 
+	}	
 }

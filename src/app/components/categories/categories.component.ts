@@ -2,7 +2,6 @@ import { Component,OnInit,NgZone } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { ResponseModel } from '../../models/response.model';
 import { Category } from '../../models/category.model';
-import { Observable } from 'rxjs';
 import { Pagination } from '../../utils/pagination.util';
 import { Toast } from '../../utils/toast.util';
 
@@ -22,6 +21,7 @@ export class CategoriesComponent implements OnInit {
   materialIcon:string='add';
   fabColor:string='gradient-45deg-green-teal';
   pagination=[];
+  progressHidden:boolean = false;
 
   constructor(private service:CategoryService,private zone:NgZone) {
     this.category=new Category();
@@ -38,8 +38,6 @@ export class CategoriesComponent implements OnInit {
       this.materialIcon='close';
       this.fabColor='gradient-45deg-red-pink';
     }else{
-      this.materialIcon='add';
-      this.fabColor='gradient-45deg-green-teal';
       this.clearForm();
     }
   }
@@ -51,7 +49,9 @@ export class CategoriesComponent implements OnInit {
         this.responseModel=data;
         this.categories=this.responseModel.data;
         this.pagination=Pagination.getPaginate(this.responseModel);
-      }
+        this.progressHidden = true;
+      },
+      error => Toast.danger(error,Toast.DURATION_SHORT)
     );
   }
 
@@ -114,6 +114,9 @@ export class CategoriesComponent implements OnInit {
   }
 
   clearForm(){
+    this.materialIcon='add';
+    this.fabColor='gradient-45deg-green-teal';
+    this.createFormState = true;
     this.category = new Category();
     this.isUpdate=false;
   }

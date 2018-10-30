@@ -25,6 +25,8 @@ export class UsersComponent implements OnInit {
   users:User[];
   pagination=[];
   user:User = new User();
+  progressHidden = false;
+
 
   constructor(private service:UserService,private router:Router) { }
 
@@ -47,6 +49,8 @@ export class UsersComponent implements OnInit {
         this.responseModel=data;
         this.users=this.responseModel.data;
         this.pagination = Pagination.getPaginate(this.responseModel);
+        this.progressHidden = true;
+
       },
       error => Toast.danger(error,Toast.DURATION_LONG)
     );

@@ -1,3 +1,5 @@
+  
+
 <div class="row">
   <div class="col s12 m12 l12 card radius-card hoverable">
     <h4 class=" grey-text left">Categories</h4>
@@ -10,20 +12,34 @@
           <input id="score" type="text" class="validate"[(ngModel)]="category.description" #description="ngModel" required name="category" max="" />
           <label for="score" class="active">Description</label>
 
-          <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
+         <!--  <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
             <div [hidden]="!description.errors.required" class="red-text">
               Description is required!
             </div>
-          </div>
+          </div> -->
         </div>
 
         <Button style="margin-top: 20px;" type="submit" class="waves-effect waves-light btn green" [disabled]="!category.description"><i class="material-icons right">save</i>
           Save
         </Button>
       </form>
+    </div> 
+    
+    <div [hidden]="progressHidden">
+      <div   class="preloader-wrapper big active loader">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <table class="highligth">
+    
+    <table class="highligth loading" [hidden]="!progressHidden">
       <thead>
         <tr>
           <th>Description</th>

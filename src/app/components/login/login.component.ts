@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
     let authData = { email: this.email, password: this.password, app:"web" };
     this.service.login(authData).subscribe(
       res=> {
-          console.log(res.data);
           let user = res.data;
           if(user && user.token){
             localStorage.setItem('currentUser', JSON.stringify(user));
