@@ -9,8 +9,11 @@
 
         <div class="input-field col s6">
           <i class="material-icons prefix">description</i>
-          <input id="score" type="text" class="validate"[(ngModel)]="category.description" #description="ngModel" required name="category" max="" />
-          <label for="score" class="active">Description</label>
+          <input id="score" type="text"
+           class="validate"[(ngModel)]="category.description" 
+           #description="ngModel" required name="category" max=""
+          />
+          <label for="score"  [class.active]="isUpdate" >Description</label>
 
          <!--  <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
             <div [hidden]="!description.errors.required" class="red-text">

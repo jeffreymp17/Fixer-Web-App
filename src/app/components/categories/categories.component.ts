@@ -79,7 +79,6 @@ export class CategoriesComponent implements OnInit {
   public getCategory(categoryId:number){
     this.onTap();
     this.isUpdate=!this.isUpdate;
-    this.createFormState=!this.createFormState;
     let auxCategory = new Category();
     this.categories.forEach(category=>{
       if(category.id==categoryId){
