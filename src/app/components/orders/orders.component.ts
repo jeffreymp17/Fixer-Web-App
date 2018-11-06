@@ -24,8 +24,8 @@ export class OrdersComponent implements OnInit {
   getAllOrders(url=null){
     let page =Pagination.getUrl(url,this.responseModel,"order");
     this.service.getAllOrders(page).subscribe(
-      data => {
-        this.responseModel=data;
+      res => {
+        this.responseModel=res;
         this.orders=this.responseModel.data;
         this.pagination=Pagination.getPaginate(this.responseModel);
         this.progressHidden = true;

@@ -26,6 +26,7 @@ export class UsersComponent implements OnInit {
   pagination=[];
   user:User = new User();
   progressHidden = false;
+  sendingUser = true;
 
 
   constructor(private service:UserService,private router:Router) { }
@@ -57,6 +58,7 @@ export class UsersComponent implements OnInit {
   }
 
   public update(user:User){
+    this.sendingUser = false;
     var birthdate = (<HTMLInputElement>document.getElementById('birthdate')).value;
     this.user.birthdate = birthdate;
       this.service.updateUser(user).subscribe(
@@ -81,6 +83,7 @@ export class UsersComponent implements OnInit {
     }
 
   public save(){
+    this.sendingUser = false;
     var birthdate = (<HTMLInputElement>document.getElementById('birthdate')).value;
     this.user.birthdate = birthdate;
     this.service.saveUser(this.user).subscribe(
@@ -110,6 +113,7 @@ export class UsersComponent implements OnInit {
   }
 
   public clearForm(){
+    this.sendingUser = true;
     this.user = new User();
     this.isUpdate=false;
     this.formTitle = "New";
