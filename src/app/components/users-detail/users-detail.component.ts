@@ -3,6 +3,10 @@ import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { ResponseModel } from '../../models/response.model';
 import { User } from  '../../models/user.model';
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Toast }  from  '../../utils/toast.util';
 
 declare var M:any;
 
@@ -13,13 +17,22 @@ declare var M:any;
 })
 export class UsersDetailComponent implements OnInit {
  
-  private  userId;
+  userId;
   selectedFile: File;
   public user:User = new User();
-  private responseModel:ResponseModel=new ResponseModel();
+  responseModel:ResponseModel=new ResponseModel();
+  ref: AngularFireStorageReference;
+  task: AngularFireUploadTask;
+  uploadState: Observable<string>;
+  uploadProgress: Observable<number>;
+  downloadURL: Observable<string>;
+  isHidden: Boolean = true;
+
   @ViewChild('form') form;
 
-  constructor(private service:UserService, private route: ActivatedRoute) { }
+  constructor(private service:UserService, 
+              private route: ActivatedRoute,
+              private afStorage: AngularFireStorage) { }
 
   ngOnInit() {
   	this.userId = this.route.snapshot.params.id;
@@ -37,8 +50,6 @@ export class UsersDetailComponent implements OnInit {
         this.user = this.responseModel.data;
         let year =  this.user.created_at != null ? this.user.created_at.date.split(" "):[];
         this.user.created_at.date = year[0];
-        console.log("USER",this.user);
-
       },
       error => this.toastMessage(error,"rounded red",3000)
 
@@ -53,19 +64,35 @@ export class UsersDetailComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
-  onUpload() {
-    const uploadData = new FormData();
-    uploadData.append('picture', this.selectedFile, this.selectedFile.name);
-    
-    this.service.uploadPicture(this.user.id,uploadData).subscribe( 
-      data => {
-       this.toastMessage("Picture updated", "rounded green",3000);
-       this.closeModal();
-       this.getUser(this.user.id);
-       this.clearForm();
+  fireBaseUpload(){
+    this.isHidden = false;
+    Toast.info("Updating...");
+    this.ref = this.afStorage.ref(this.userId+"");
+    this.task = this.ref.put(this.selectedFile);
+    this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
+    this.uploadProgress = this.task.percentageChanges();
+    this.closeModal();
+
+    this.uploadProgress.subscribe(data=>{
+      if(data == 100) 
+        this.ref.getDownloadURL().subscribe(
+          url=>{
+            this.isHidden = true;
+            this.user.picture = url;
+            this.update(this.user);
+          }
+        );
+    });
+  }
+
+  public update(user:User){
+    this.service.updateUser(user).subscribe(
+      user =>{
+        Toast.success("successfully updated",Toast.DURATION_SHORT);
+        
       },
-      error => this.toastMessage(error,"rounded red",3000)
-    );
+      error => Toast.danger(error,Toast.DURATION_LONG)
+    )
   }
   private closeModal() {
     var elem= document.querySelector('.modal');

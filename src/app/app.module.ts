@@ -15,6 +15,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard, LoginGuard } from './auth/auth.guard';
 import { OrdersComponent } from './components/orders/orders.component';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,14 @@ import { OrdersComponent } from './components/orders/orders.component';
    routes,
     BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AngularFireModule.initializeApp({
+      apiKey: "AIzaSyAO6rA_zsvfBtNmobVDRAjtzo54Gq_sSA4",
+      authDomain: "fixer-cr.firebaseapp.com",
+      storageBucket: "fixer-cr.appspot.com",
+      projectId: "fixer-cr",
+    }),
+    AngularFireStorageModule
   ],
   providers: [
     AuthGuard,

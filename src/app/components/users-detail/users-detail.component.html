@@ -1,3 +1,9 @@
+<div [hidden]="isHidden">
+	<div class="progress" style="margin-top:0px;">
+		<div class="determinate" [style.width]="(uploadProgress | async) + '%'"></div>
+	</div>
+</div>
+
 <div class="row">
 	<div class="col s12">
   		<div id="profile-page-header" class="card">
@@ -22,7 +28,7 @@
   						<p class="medium-small grey-text">Score</p>
   					</div>
   					<div class="col s12 m2 center-align">
-  						<h4 class="card-title grey-text text-darken-4">6</h4>
+  						<h4 class="card-title grey-text text-darken-4">{{downloadURL}}</h4>
   						<p class="medium-small grey-text">Orders</p>
   					</div>
   					<div class="col s12 m2 center-align">
@@ -86,7 +92,7 @@
           </div>
         </div>
           <div class="input-field right">
-              <Button (click)="onUpload()" class="waves-effect waves-light btn green"  ><i class="material-icons right" >cloud_upload</i>Upload</Button>
+              <Button (click)="fireBaseUpload()" class="waves-effect waves-light btn green"  ><i class="material-icons right" >cloud_upload</i>Upload</Button>
           </div>
           <div class="input-field right mr-2">
               <a (click)="clearForm()" class="modal-close waves-effect waves-light btn red">
