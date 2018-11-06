@@ -1,0 +1,90 @@
+  
+
+<div class="row">
+  <div class="col s12 m12 l12 card radius-card hoverable">
+    <h4 class=" grey-text left">Categories</h4>
+
+    <div class="row">
+      <form class="col s12" (submit)="actions($event)" #form="ngForm" [hidden]="createFormState">
+
+        <div class="input-field col s6">
+          <i class="material-icons prefix">description</i>
+          <input id="score" type="text"
+           class="validate"[(ngModel)]="category.description" 
+           #description="ngModel" required name="category" max=""
+          />
+          <label for="score"  [class.active]="isUpdate" >Description</label>
+
+         <!--  <div *ngIf="description.errors && (description.dirty || description.touched)" class="alert alert-danger">
+            <div [hidden]="!description.errors.required" class="red-text">
+              Description is required!
+            </div>
+          </div> -->
+        </div>
+
+        <Button style="margin-top: 20px;" type="submit" class="waves-effect waves-light btn green" [disabled]="!category.description"><i class="material-icons right">save</i>
+          Save
+        </Button>
+      </form>
+    </div> 
+    
+    <div [hidden]="progressHidden">
+      <div   class="preloader-wrapper big active loader">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <table class="highligth loading" [hidden]="!progressHidden">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Delete</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr  *ngFor="let category of categories">
+          <td>{{category.description}}</td>
+          <td><a class="btn-floating waves-effect waves-light red"><i class="material-icons" (click)="deleteCategory(category.id)">delete</i></a></td>
+          <td><a class="btn-floating waves-effect waves-light blue"><i class="material-icons" (click)="getCategory(category.id)">edit</i></a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul class="pagination">
+      <li [class.disabled]="responseModel.meta.current_page === 1"
+        (click)="getAllCategories(responseModel.meta.current_page-1)">
+        <a><i class="material-icons">chevron_left</i></a>
+      </li>
+
+      <li *ngFor="let page of pagination"
+        (click)="getAllCategories(page)"
+        [class.active]="responseModel.meta.current_page === page"
+        [class.green] ="responseModel.meta.current_page === page" >
+        <a >{{page}}</a>
+      </li>
+
+      <li [class.disabled]="responseModel.meta.current_page === responseModel.meta.last_page"
+          (click)="getAllCategories(responseModel.meta.current_page+1)">
+        <a ><i class="material-icons">chevron_right</i></a>
+      </li>
+    </ul>
+
+
+  </div>
+</div>
+
+<div class="fixed-action-btn" #f>
+ <a class="btn-floating btn-large {{fabColor}}" (click)="onTap()">
+    <i class="large material-icons">{{materialIcon}}</i>
+  </a>
+</div>

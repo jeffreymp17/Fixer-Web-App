@@ -1,0 +1,49 @@
+ <div [hidden]="progressHidden">
+	<div class="progress" style="margin-top: 0px;" >
+      <div class="indeterminate light-blue accent-3"></div>
+  </div> 
+</div>
+ 
+<div class="center-align mt-4">
+	<div class="container">
+		<div class="z-depth-1 radius-card row card-panel hoverable login">
+			
+			<h4 class="green-text center-align">Fixer</h4>
+			<form class="col s12"  #form="ngForm" (submit)="actions($event)">
+				<div class='row'>
+					<div class='col s12'>
+					</div>
+				</div>
+
+				<div class='row'>
+					<div class='input-field col s12'>
+			        	<i class="material-icons prefix">email</i>
+						<input class='validate' [(ngModel)]="email" type='email' name='email' id='email' required />
+						<label for='email'>Email</label>
+					</div>
+				</div>
+
+				<div class='row'>
+					<div class='input-field col s12'>
+			        	<i class="material-icons prefix">https</i>
+						<input class='validate' [(ngModel)]="password" type='password' name='password' id='password' required />
+						<label for='password'>Password</label>
+					</div>
+					<label style='float: right;'>
+						<a class="blue-text modal-trigger"><b>forgot your password?</b></a>
+					</label>
+				</div>
+
+				<br />
+				<div class='row'>
+					<button type='submit'
+					 name='btn_login' 
+					 class='col s12 btn btn-large waves-effect gradient-45deg-green-teal'
+					 [disabled]="!progressHidden">Login</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+

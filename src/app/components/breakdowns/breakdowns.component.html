@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col s12 m12 l12 card radius-card hoverable">
+    <h4 class=" grey-text left">Breakdowns</h4>
+   
+    <div [hidden]="progressHidden">
+        <div   class="preloader-wrapper big active loader">
+          <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
+            </div><div class="gap-patch">
+              <div class="circle"></div>
+            </div><div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <table class="highligth responsive-table" [hidden]="!progressHidden">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Delete</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let breakdown of breakdowns" >
+          <td>{{breakdown.description}}</td>
+          <td>₡ {{breakdown.price}}</td>
+          <td>{{breakdown.category.description}}</td>
+          <td><a class="btn-floating waves-effect waves-light red" (click)="deleteBreakdown(breakdown.id)"><i class="material-icons" >delete</i></a></td>
+          <td><a class="btn-floating waves-effect waves-light blue modal-trigger" data-target="userModal"><i class="material-icons" (click)="getBreakdown(breakdown.id)">edit</i></a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul class="pagination">
+      <li [class.disabled]="responseModel.meta.current_page === 1"
+        (click)="getAllBreakdowns(responseModel.meta.current_page-1)">
+        <a><i class="material-icons">chevron_left</i></a>
+      </li>
+
+      <li *ngFor="let page of pagination"
+        (click)="getAllBreakdowns(page)"
+        [class.active]="responseModel.meta.current_page === page"
+        [class.green] ="responseModel.meta.current_page === page" >
+        <a >{{page}}</a>
+      </li>
+
+      <li [class.disabled]="responseModel.meta.current_page === responseModel.meta.last_page"
+          (click)="getAllBreakdowns(responseModel.meta.current_page+1)">
+        <a ><i class="material-icons">chevron_right</i></a>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large modal-trigger gradient-45deg-green-teal" data-target="userModal">
+      <i class="large material-icons">add</i>
+    </a>
+  </div>
+
+<div id="userModal" class="modal">
+  <div class="modal-content">
+    <h4>{{formTitle}} Breakdown</h4>
+    <div class="row">
+      <form #form  (submit)="actions($event)">
+          <div class="input-field col s12">
+              <i class="material-icons prefix">description</i>
+              <input id="description" type="text" class="validate" [(ngModel)]="breakdown.description" name="description">
+              <label for="description"  [class.active]="isUpdate">Description</label>
+            </div>
+    
+            <div class="input-field col s6">
+              <i class="material-icons prefix">attach_money</i>
+              <input id="price" type="text" class="validate" [(ngModel)]="breakdown.price" name="price">
+              <label for="price"  [class.active]="isUpdate">Price</label>
+            </div>
+    
+            <div class="input-field col s6">
+              <div class="select">
+                <select class="select-text browser-default" [(ngModel)]="breakdown.category_id" name="category_id" required>
+                  <option value="" disabled selected>Choose a category</option>
+                  <option *ngFor="let category of categories" 
+                  [value]="category.id"> 
+                    {{category.description}}
+                  </option>
+                </select>
+                <span class="select-highlight"></span>
+                <span class="select-bar"></span>
+                <label class="select-label active">Categories</label>
+              </div>
+            </div> 
+          
+
+            <div class="input-field right">
+                <Button type="submit" class="waves-effect waves-light btn green"[disabled]="!breakdown.description||!breakdown.price||!breakdown.category_id"  ><i class="material-icons right" >save</i>Save</Button>
+            </div>
+            <div class="input-field right mr-2">
+               <a class="modal-close waves-effect waves-light btn red" (click)="clearForm()">
+                 <i class="material-icons right">cancel</i>Cancel</a>
+             </div>
+      </form>
+    </div>
+  </div>
+</div>
+

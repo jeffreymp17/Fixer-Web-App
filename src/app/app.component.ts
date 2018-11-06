@@ -1,5 +1,6 @@
 import { Component,OnInit } from '@angular/core';
-import * as M from 'materialize-css/dist/js/materialize';
+import { Observable } from 'rxjs';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,12 @@ import * as M from 'materialize-css/dist/js/materialize';
 })
 export class AppComponent implements OnInit{
   title = 'Fixer';
-  ngOnInit(){
-  	M.AutoInit();
+  isLoggedIn: Observable<boolean>;
+
+  constructor(private service:AuthService) {
   }
+
+  ngOnInit() {
+  	this.isLoggedIn = this.service.isInSession;
   }
+}

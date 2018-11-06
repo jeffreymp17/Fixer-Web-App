@@ -1,0 +1,64 @@
+
+<div class="row">
+	<div class="col s12 m12 l12 card radius-card hoverable">
+		<h4 class=" grey-text left">Orders</h4>
+
+		<div [hidden]="progressHidden">
+			<div   class="preloader-wrapper big active loader">
+				<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div><div class="gap-patch">
+					<div class="circle"></div>
+				</div><div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+				</div>
+			</div>
+		</div>
+			  
+		<table class="highligth loading" [hidden]="!progressHidden">
+			<thead>
+				<tr>
+					<th>Breakdown</th>
+					<th>Customer</th>
+					<th>Technician</th>
+					<th>Created at</th>
+					<th>Finish at</th>
+					<th>Score</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr *ngFor="let order of orders">
+					<td>{{order.breakdown}}</td>
+					<td>{{order.customer}}</td>
+					<td>{{order.technician}}</td>
+					<td>{{order.created_at}}</td>
+					<td>{{order.finish_at}}</td>
+					<td>{{order.socore}}</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+		<ul class="pagination">
+			<li [class.disabled]="responseModel.meta.current_page === 1"
+				(click)="getAllOrders(responseModel.meta.current_page-1)">
+				<a><i class="material-icons">chevron_left</i></a>
+			</li>
+		
+			<li *ngFor="let page of pagination"
+				(click)="getAllOrders(page)"
+				[class.active]="responseModel.meta.current_page === page"
+				[class.green] ="responseModel.meta.current_page === page" >
+				<a >{{page}}</a>
+			</li>
+		
+			<li [class.disabled]="responseModel.meta.current_page === responseModel.meta.last_page"
+				(click)="getAllOrders(responseModel.meta.current_page+1)">
+				<a ><i class="material-icons">chevron_right</i></a>
+			</li>
+		</ul>
+	</div>
+</div>	  

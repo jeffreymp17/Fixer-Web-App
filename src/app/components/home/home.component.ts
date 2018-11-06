@@ -14,4 +14,16 @@ export class HomeComponent implements OnInit {
   goToTechnicians(){
   	this.router.navigate(["/technicians"]);
   }
+  goToCategories(){
+  	this.router.navigate(["/categories"]);
+  }
+  goToBreakdowns(){
+    this.router.navigate(['/breakdowns']);
+  }
+  goToUsers(){
+    this.router.navigate(["/users"]);
+  }
+  goToOrders(){
+    this.router.navigate(['/orders']);
+  }
 }

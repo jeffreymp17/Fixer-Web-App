@@ -1,0 +1,185 @@
+<div class="row">
+	<div  class="col s12 card radius-card hoverable">
+		<h4 class=" grey-text left">Users</h4>
+		
+		
+		<div [hidden]="progressHidden">
+			<div   class="preloader-wrapper big active loader">
+				<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div><div class="gap-patch">
+					<div class="circle"></div>
+				</div><div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+				</div>
+			</div>
+		</div>
+			  
+		<table class="highligth responsive-table" [hidden]="!progressHidden">
+			<thead>
+				<tr>
+					<th>Type</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Delete</th>
+					<th>Edit</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr  *ngFor="let user of users">
+					<td (click)="goToDetail(user.id)">
+						<span *ngIf="(user.type == 'Admin')" class="new badge  cyan accent-4 pointer" data-badge-caption="">{{user.type}}</span>
+						<span *ngIf="(user.type=='Customer')" class="new badge deep-purple accent-2 pointer" data-badge-caption="">{{user.type}}</span>
+
+						<span *ngIf="(user.type=='Technician')" class="new badge pink accent-2 pointer" data-badge-caption="">{{user.type}}</span>
+					</td>
+					<td *ngIf="currentUser.id != user.id; else nameBlock">
+						{{user.name}} {{user.lastname}} 
+					</td>
+					<td>
+						{{user.email}} <span *ngIf="(user.isOnline)" class="new badge green accent- pointer" data-badge-caption="">Online</span>
+					</td>
+					<td *ngIf="user.phone!=null; else phoneBlock">
+						{{user.phone}}
+					</td>
+					<td *ngIf="currentUser.id != user.id; else deleteBlock">
+						<a class="btn-floating waves-effect waves-light red"><i class="material-icons" (click)="delete(user.id)">delete</i></a>
+					</td>
+					<td>
+						<a class="btn-floating waves-effect waves-light blue modal-trigger" data-target="userModal"><i class="material-icons" (click)="getUser(user.id)">edit</i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<ul class="pagination">
+            <li [class.disabled]="responseModel.meta.current_page === 1"
+            (click)="getAllUsers(responseModel.meta.current_page-1)">
+            	<a><i class="material-icons">chevron_left</i></a>
+            </li>
+            <li *ngFor="let page of pagination"
+  				(click)="getAllUsers(page)"
+  				[class.active]="responseModel.meta.current_page === page"
+  				[class.green] ="responseModel.meta.current_page === page" >
+  				<a >{{page}}</a>
+  			</li>
+            <li [class.disabled]="responseModel.meta.current_page === responseModel.meta.last_page"
+            (click)="getAllUsers(responseModel.meta.current_page+1)">
+            	<a ><i class="material-icons">chevron_right</i></a>
+            </li>
+          </ul>
+	</div>
+</div>
+
+<div class="fixed-action-btn">
+	<a class="btn-floating btn-large modal-trigger gradient-45deg-green-teal" data-target="userModal">
+		<i class="large material-icons">person_add</i>
+	</a>
+</div>
+
+<ng-template #phoneBlock>
+	<td>Unregistered phone</td>
+</ng-template>
+
+<ng-template #nameBlock>
+	<td>You</td>
+</ng-template>
+
+<ng-template #deleteBlock>
+	<td></td>
+</ng-template>
+
+<ng-template #emptyBlock>
+	<div class="col {{tableColumn}}">
+			<h3 class="grey-text center">there aren't any users</h3>
+	</div>
+</ng-template>
+
+
+ <div id="userModal" class="modal">
+		<div [hidden]="sendingUser">
+			<div   class="preloader-wrapper big active loader">
+				<div class="spinner-layer spinner-blue-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div><div class="gap-patch">
+					<div class="circle"></div>
+				</div><div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+				</div>
+			</div>
+		</div>
+    <div class="modal-content">
+      <h4>{{formTitle}} User</h4>
+      <div class="row">
+      	 <form #form  (submit)="actions($event)">
+			<div class="input-field col s12 m6">
+      			<i class="material-icons prefix">person</i>
+          		<input id="name" type="text" class="validate" [(ngModel)]="user.name" name="name" required>
+          		<label for="name" [class.active]="isUpdate">Name</label>
+	        </div>
+	        
+	        <div class="input-field col s12 m6">
+      			<i class="material-icons prefix">description</i>
+          		<input id="lastname" type="text" class="validate" [(ngModel)]="user.lastname" name="lastname" required>
+          		<label for="lastname" [class.active]="isUpdate">Lastname</label>
+	        </div>	
+
+	        <div class="input-field col s12 m4">
+	        	<i class="material-icons prefix">email</i>
+          		<input id="email" type="email" 
+          		[(ngModel)]="user.email" name="email" class="validate" required>
+          		<label for="email"  [class.active]="isUpdate">Email</label>
+        	</div>
+
+ 			<div class="input-field col s12 m4">
+	        	<i class="material-icons prefix">calendar_today</i>
+          		<input id="birthdate" [(ngModel)]="user.birthdate" name="birthdate" type="text" class="datepicker validate" required>
+				<label for="birthdate"  [class.active]="isUpdate">Birthdate</label>
+        	</div>
+
+        	<div class="input-field col s12 m4">
+        		<p>
+			      <label>
+			        <input  value="female" class="with-gap" name="group1" type="radio" (change)="genderHandle($event)" [checked]="!isMale" />
+			        <span>Female</span>
+			      </label>
+			        <label>
+			        <input value="male" class="with-gap" name="group1" type="radio" (change)="genderHandle($event)" [checked]="isMale" />
+			        <span>Male</span>
+			      </label>
+			    </p>
+        	</div>
+
+
+        	<div class="input-field col s12 m6">
+          		<i class="material-icons prefix">phone</i>
+          		<input id="phone" type="tel" name="phone" class="validate" [(ngModel)]="user.phone">
+          		<label for="phone"  [class.active]="isUpdate">Telephone</label>
+        	</div>
+
+	        <div class="input-field col s12 m6">
+            	<select materialize="material_select" [(ngModel)]="user.type" 
+            	name="type" required>
+             	 	<option value="1">Admin</option>
+              		<option value="App\Technician">Technician</option>
+              		<option value="App\Customer">Customer</option>
+            	</select>
+            	<label>User types</label>
+          	</div>	
+          	<div class="input-field right">
+           		<Button type="submit" class="waves-effect waves-light btn green"  ><i class="material-icons right" >save</i>Save</Button>
+         	</div>
+         	<div class="input-field right mr-2">
+          		<a class="modal-close waves-effect waves-light btn red" (click)="clearForm()">
+          			<i class="material-icons right">cancel</i>Cancel</a>
+          	</div>
+		</form>
+      </div>
+    </div>
+  
+  </div>
